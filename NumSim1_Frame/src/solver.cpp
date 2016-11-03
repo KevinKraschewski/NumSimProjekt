@@ -16,51 +16,53 @@
  */
 //------------------------------------------------------------------------------
 #include "typedef.hpp"
-//------------------------------------------------------------------------------
-#ifndef __SOLVER_HPP
-#define __SOLVER_HPP
-//------------------------------------------------------------------------------
+#include "solver.hpp"
 
-/** abstract base class for an iterative solver
-*/
-class Solver {
-public:
-  /// Constructor of the abstract Solver class
-  Solver(const Geometry *geom);
-  /// Destructor of the Solver Class
-  virtual ~Solver();
+/// Constructor of the abstract Solver class
+Solver::Solver(const Geometry *geom){
+  // hier fehlt noch was
+}
 
-  /// This function must be implemented in a child class
-  // @param [in][out] grid current values
-  // @param [in]      rhs  right hand side values
-  // @returns accumulated residual
-  virtual real_t Cycle(Grid *grid, const Grid *rhs) const = 0;
+/// Destructor of the Solver Class
+virtual Solver::~Solver(){
+  // hier fehlt noch was
+}
 
-protected:
-  const Geometry *_geom;
+/// This function must be implemented in a child class
+// @param [in][out] grid current values
+// @param [in]      rhs  right hand side values
+// @returns accumulated residual
+virtual real_t Solver::Cycle(Grid *grid, const Grid *rhs) const = 0{
+  // hier fehlt noch was
+  return 0.0; // falsch
+}
 
-  /// Returns the residual at [it] for the pressure-Poisson equation
-  real_t localRes(const Iterator &it, const Grid *grid, const Grid *rhs) const;
-};
+  //const Geometry *_geom;
 
-//------------------------------------------------------------------------------
+/// Returns the residual at [it] for the pressure-Poisson equation
+real_t Solver::localRes(const Iterator &it, const Grid *grid, const Grid *rhs) const{
+  // hier fehlt noch was
+  return 0.0; // falsch
+}
 
-/** concrete SOR solver
-*/
-class SOR : public Solver {
-public:
-  /// Constructs an actual SOR solver
-  SOR(const Geometry *geom, const real_t &omega);
-  /// Destructor
-  ~SOR();
+  
+/// Constructs an actual SOR solver
+SOR::SOR(const Geometry *geom, const real_t &omega){
+  // hier fehlt noch was
+}
 
-  /// Returns the total residual and executes a solver cycle
-  // @param grid current pressure values
-  // @param rhs right hand side
-  real_t Cycle(Grid *grid, const Grid *rhs) const;
+/// Destructor
+SOR::~SOR(){
+  // hier fehlt noch was
+}
 
-protected:
-  real_t _omega;
-};
-//------------------------------------------------------------------------------
-#endif // __SOLVER_HPP
+/// Returns the total residual and executes a solver cycle
+// @param grid current pressure values
+// @param rhs right hand side
+real_t SOR::Cycle(Grid *grid, const Grid *rhs) const{
+  // hier fehlt noch was
+  return 0.0; // falsch
+}
+
+
+  //real_t _omega;

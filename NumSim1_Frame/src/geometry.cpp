@@ -43,17 +43,17 @@ void Geometry::Load(const char *file){
 
 /// Returns the number of cells in each dimension
 const multi_index_t Geometry::&Size() const{
-  return _size
+  return _size;
 }
 
 /// Returns the length of the domain
 const multi_real_t Geometry::&Length() const{
-  return _legnth
+  return _legnth;
 }
 
 /// Returns the meshwidth
 const multi_real_t Geometry::&Mesh() const{
-  return _h
+  return _h;
 }
 
 /// Updates the velocity field u
