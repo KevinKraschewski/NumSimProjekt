@@ -15,7 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "typedef.hpp"
 #include "compute.hpp"
 
 /// Creates a compute instance with given geometry and parameter

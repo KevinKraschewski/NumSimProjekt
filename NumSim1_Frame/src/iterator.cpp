@@ -15,7 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "typedef.hpp"
 #include "iterator.hpp"
 
 /// Constructs a new Iterator depending on a geometry
