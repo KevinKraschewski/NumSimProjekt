@@ -26,8 +26,13 @@ public:
   // Driven Cavity parameters; see exercise sheet 1
   Parameter();
 
+  /// Destructor
+  ~Parameter();
+  
   /// Loads the parameter values from a file
   void Load(const char *file);
+  
+  
 
   /// Getter functions for all parameters
   const real_t &Re() const;
