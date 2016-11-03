@@ -36,45 +36,45 @@ void Compute::TimeStep(bool printInfo){
 
 /// Returns the simulated time in total
 const real_t Compute::&GetTime() const{
-  return _t
+  return _t;
 }
 
 /// Returns the pointer to U
 const Grid Compute::*GetU() const{
-  return _u
+  return _u;
 }
 
 /// Returns the pointer to V
 const Grid Compute::*GetV() const{
-  return _v
+  return _v;
 }
 
 /// Returns the pointer to P
 const Grid Compute::*GetP() const{
-  return _p
+  return _p;
 }
 
 /// Returns the pointer to RHS
 const Grid Compute::*GetRHS() const{
-  return _rhs
+  return _rhs;
 }
 
 /// Computes and returns the absolute velocity
 const Grid Compute::*GetVelocity(){
   // hier fehlt noch was
-  return _F //falsch
+  return _F; //falsch
 }
 
 /// Computes and returns the vorticity
 const Grid Compute::*GetVorticity(){
   // hier fehlt noch was
-  return _F //falsch
+  return _F; //falsch
 }
 
 /// Computes and returns the stream line values
 const Grid Compute::*GetStream(){
   // hier fehlt noch was
-  return _F //falsch
+  return _F; //falsch
 }
 
 

@@ -16,88 +16,118 @@
  */
 
 #include "typedef.hpp"
-//------------------------------------------------------------------------------
-#ifndef __ITERATOR_HPP
-#define __ITERATOR_HPP
-//------------------------------------------------------------------------------
-/** Iterator base class
-*/
-class Iterator {
-public:
-  /// Constructs a new Iterator depending on a geometry
-  Iterator(const Geometry *geom);
-  /// Constructs a new Iterator on a geometry with a defined starting value
-  Iterator(const Geometry *geom, const index_t &value);
+#include "iterator.hpp"
 
-  ///     Returns the current position value
-  virtual const index_t &Value() const;
-  /// Cast operator to convert Iterators to integers
-  virtual operator const index_t &() const;
-  /// Returns the position coordinates
-  virtual multi_index_t Pos() const;
+/// Constructs a new Iterator depending on a geometry
+Iterator::Iterator(const Geometry *geom){
+  // hier fehlt noch was
+}
 
-  /// Sets the iterator to the first element
-  virtual void First();
-  /// Goes to the next element of the iterator, disables it if position is end
-  virtual void Next();
+/// Constructs a new Iterator on a geometry with a defined starting value
+Iterator::Iterator(const Geometry *geom, const index_t &value){
+  // hier fehlt noch was
+}
 
-  /// Checks if the iterator still has a valid value
-  virtual bool Valid() const;
+/// Returns the current position value
+virtual const index_t Iterator::&Value() const{
+  return _value;
+}
 
-  /// Returns an Iterator that is located left from this one.
-  // if we are at the left boundary, the cell sees itself
-  virtual Iterator Left() const;
+/// Cast operator to convert Iterators to integers
+virtual operator const index_t Iterator::&() const{
+  // hier fehlt noch was
+  return _value; // passt das????
+}
 
-  /// Returns an Iterator that is located right from this one
-  // If we are at the right boundary, the cell sees itself
-  virtual Iterator Right() const;
+/// Returns the position coordinates
+virtual multi_index_t Iterator::Pos() const{
+  // hier fehlt noch was
+  return 0; \\ falsch
+}
 
-  /// Returns an Iterator that is located above this one
-  // If we are at the upper domain boundary, the cell sees itself
-  virtual Iterator Top() const;
+/// Sets the iterator to the first element
+virtual void Iterator::First(){
+  // hier fehlt noch was
+}
 
-  /// Returns an Iterator that is located below this one
-  // If we are at the lower domain boundary, the cell sees itself
-  virtual Iterator Down() const;
+/// Goes to the next element of the iterator, disables it if position is end
+virtual void Iterator::Next(){
+  // hier fehlt noch was
+}
 
-protected:
-  const Geometry *_geom;
-  index_t _value;
-  bool _valid;
-};
+/// Checks if the iterator still has a valid value
+virtual bool Iterator::Valid() const{
+  // hier fehlt noch was
+  return true; // falsch
+}
 
-//------------------------------------------------------------------------------
-/** Iterator for interior cells
-*/
-class InteriorIterator : public Iterator {
-public:
-  /// Construct a new InteriorIterator
-  InteriorIterator(const Geometry *geom);
+/// Returns an Iterator that is located left from this one.
+// if we are at the left boundary, the cell sees itself
+virtual Iterator Iterator::Left() const{
+  // hier fehlt noch was
+  return 0; // falsch
+}
 
-  /// Sets the iterator to the first element
-  void First();
-  /// Goes to the next element of the iterator, disables it if position is end
-  void Next();
-};
+/// Returns an Iterator that is located right from this one
+// If we are at the right boundary, the cell sees itself
+virtual Iterator Iterator::Right() const{
+  // hier fehlt noch was
+  return 0; // falsch
+}
 
-//------------------------------------------------------------------------------
-/** Iterator for domain boundary cells.
-*/
-class BoundaryIterator : public Iterator {
-public:
-  /// Constructs a new BoundaryIterator
-  BoundaryIterator(const Geometry *geom);
+/// Returns an Iterator that is located above this one
+// If we are at the upper domain boundary, the cell sees itself
+virtual Iterator Iterator::Top() const{
+  // hier fehlt noch was
+  return 0; // falsch
+}
 
-  /// Sets the boundary to iterate
-  void SetBoundary(const index_t &boundary);
+/// Returns an Iterator that is located below this one
+// If we are at the lower domain boundary, the cell sees itself
+virtual Iterator Iterator::Down() const{
+  // hier fehlt noch was
+  return 0; // falsch
+}
 
-  /// Sets the iterator to the first element
-  void First();
-  /// Goes to the next element of the iterator, disables it if position is end
-  void Next();
 
-private:
-  index_t _boundary;
-};
-//------------------------------------------------------------------------------
-#endif // __ITERATOR_HPP
+  //const Geometry *_geom;
+  //index_t _value;
+  //bool _valid;
+
+/// Construct a new InteriorIterator
+InteriorIterator::InteriorIterator(const Geometry *geom){
+  // hier fehlt noch was
+}
+
+/// Sets the iterator to the first element
+void InteriorIterator::First(){
+  // hier fehlt noch was
+}
+
+/// Goes to the next element of the iterator, disables it if position is end
+void InteriorIterator::Next(){
+  // hier fehlt noch was
+}
+
+/// Constructs a new BoundaryIterator
+BoundaryIterator::BoundaryIterator(const Geometry *geom){
+  // hier fehlt noch was
+}
+
+/// Sets the boundary to iterate
+void BoundaryIterator::SetBoundary(const index_t &boundary){
+  // hier fehlt noch was
+}
+
+/// Sets the iterator to the first element
+void BoundaryIterator::First(){
+  // hier fehlt noch was
+}
+
+/// Goes to the next element of the iterator, disables it if position is end
+void BoundaryIterator::Next(){
+  // hier fehlt noch was
+}
+
+
+  //index_t _boundary;
