@@ -57,9 +57,9 @@ int main(int argc, char **argv) {
     case 1:
       visugrid = comp.GetU();
       break;
-    case 2:
-      visugrid = comp.GetV();
-      break;
+    //case 2:
+    //  visugrid = comp.GetV();
+    //  break;
     case 3:
       visugrid = comp.GetP();
       break;
