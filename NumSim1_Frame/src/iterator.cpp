@@ -19,12 +19,18 @@
 
 /// Constructs a new Iterator depending on a geometry
 Iterator::Iterator(const Geometry *geom){
-  // hier fehlt noch was
+	*_geom = geom;
+	_value = 1;
+	_valid = true;
 }
 
 /// Constructs a new Iterator on a geometry with a defined starting value
 Iterator::Iterator(const Geometry *geom, const index_t &value){
-  // hier fehlt noch was
+	*_geom = geom;
+	_value = value;
+	if (value <= (_geom.size[0]+2)*(_geom.size[1]+2))
+		_valid = true;
+	else _valid = false;
 }
 
 /// Returns the current position value
@@ -88,7 +94,8 @@ Iterator Iterator::Down() const{
   //bool _valid;
 
 /// Construct a new InteriorIterator
-InteriorIterator::InteriorIterator(const Geometry *geom) : Iterator::Iterator(geom) {
+// Konstruktor von Iterator wird zu Beginn schon aufgerufen, da es keine Konstructor für Iterator ohne Argumente gibt.
+InteriorIterator::InteriorIterator(const Geometry *geom) : Iterator::Iterator(geom) {  
   // hier fehlt noch was
 }
 
