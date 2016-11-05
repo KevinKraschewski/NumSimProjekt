@@ -41,13 +41,14 @@ void Grid::Initialize(const real_t &value){
 }
 
 /// Write access to the grid cell at position [it]
-real_t Grid::&Cell(const Iterator &it){
+real_t& Grid::Cell(const Iterator &it){
   // hier fehlt noch was
-  return 0.0; //falsch
+  real_t bla = 0.0; //falsch
+  return bla; //falsch
 }
 
 /// Read access to the grid cell at position [it]
-const real_t Grid::&Cell(const Iterator &it) const{
+const real_t& Grid::Cell(const Iterator &it) const{
   // hier fehlt noch was
   return 0.0; //falsch
 }
@@ -137,9 +138,9 @@ real_t Grid::AbsMax() const{
 }
 
 /// Returns a pointer to the raw data
-real_t Grid::*Data(){
+real_t* Grid::Data(){
   // hier fehlt noch was
-  return 0.0; //falsch
+  return 0; //falsch
 }
 
 

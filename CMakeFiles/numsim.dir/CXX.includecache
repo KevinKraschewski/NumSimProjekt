@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/philipp/Dropbox/Uni/Semester VII/NumSim/NumSimProjekt/NumSim1_Frame/src/iterator.cpp
+iterator.hpp
+/home/philipp/Dropbox/Uni/Semester VII/NumSim/NumSimProjekt/NumSim1_Frame/src/iterator.hpp
+
+/home/philipp/Dropbox/Uni/Semester VII/NumSim/NumSimProjekt/NumSim1_Frame/src/iterator.hpp
+typedef.hpp
+/home/philipp/Dropbox/Uni/Semester VII/NumSim/NumSimProjekt/NumSim1_Frame/src/typedef.hpp
+
+/home/philipp/Dropbox/Uni/Semester VII/NumSim/NumSimProjekt/NumSim1_Frame/src/typedef.hpp
+stdint.h
+-
+

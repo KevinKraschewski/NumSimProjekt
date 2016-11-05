@@ -28,62 +28,62 @@ Iterator::Iterator(const Geometry *geom, const index_t &value){
 }
 
 /// Returns the current position value
-virtual const index_t Iterator::&Value() const{
+const index_t& Iterator::Value() const{
   return _value;
 }
 
 /// Cast operator to convert Iterators to integers
-virtual operator const index_t Iterator::&() const{
+Iterator::operator const index_t& () const{
   // hier fehlt noch was
   return _value; // passt das????
 }
 
 /// Returns the position coordinates
-virtual multi_index_t Iterator::Pos() const{
+multi_index_t Iterator::Pos() const{
   // hier fehlt noch was
-  return 0; \\ falsch
+  return 0; // falsch
 }
 
 /// Sets the iterator to the first element
-virtual void Iterator::First(){
+void Iterator::First(){
   // hier fehlt noch was
 }
 
 /// Goes to the next element of the iterator, disables it if position is end
-virtual void Iterator::Next(){
+void Iterator::Next(){
   // hier fehlt noch was
 }
 
 /// Checks if the iterator still has a valid value
-virtual bool Iterator::Valid() const{
+bool Iterator::Valid() const{
   // hier fehlt noch was
   return true; // falsch
 }
 
 /// Returns an Iterator that is located left from this one.
 // if we are at the left boundary, the cell sees itself
-virtual Iterator Iterator::Left() const{
+Iterator Iterator::Left() const{
   // hier fehlt noch was
   return 0; // falsch
 }
 
 /// Returns an Iterator that is located right from this one
 // If we are at the right boundary, the cell sees itself
-virtual Iterator Iterator::Right() const{
+Iterator Iterator::Right() const{
   // hier fehlt noch was
   return 0; // falsch
 }
 
 /// Returns an Iterator that is located above this one
 // If we are at the upper domain boundary, the cell sees itself
-virtual Iterator Iterator::Top() const{
+Iterator Iterator::Top() const{
   // hier fehlt noch was
   return 0; // falsch
 }
 
 /// Returns an Iterator that is located below this one
 // If we are at the lower domain boundary, the cell sees itself
-virtual Iterator Iterator::Down() const{
+Iterator Iterator::Down() const{
   // hier fehlt noch was
   return 0; // falsch
 }
@@ -95,6 +95,7 @@ virtual Iterator Iterator::Down() const{
 
 /// Construct a new InteriorIterator
 InteriorIterator::InteriorIterator(const Geometry *geom){
+  Iterator:Iterator(geom);
   // hier fehlt noch was
 }
 
@@ -110,6 +111,7 @@ void InteriorIterator::Next(){
 
 /// Constructs a new BoundaryIterator
 BoundaryIterator::BoundaryIterator(const Geometry *geom){
+  Iterator:Iterator(geom);
   // hier fehlt noch was
 }
 
