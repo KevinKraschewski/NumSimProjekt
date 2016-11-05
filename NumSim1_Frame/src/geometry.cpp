@@ -16,6 +16,10 @@
  */
 
 #include "geometry.hpp"
+#include <cstdio>
+#include <cstring>
+#include <cstdlib>
+#include <vector>
 
 /// Constructs a default geometry:
 // driven cavity with 128 x 128 grid, no-slip boundary conditions
@@ -37,7 +41,39 @@ Geometry::Geometry(){
 
 /// Loads a geometry from a file
 void Geometry::Load(const char *file){
-  // hier fehlt noch was
+	FILE* handle = fopen(file,"r");
+	std::vector<double> inval(2);
+	char name[20];
+	while (!feof(handle)) {
+		if (!fscanf(handle, "%s =", name)) continue;
+		if (strcmp(name,"size") == 0) {
+			if (fscanf(handle," %lf %lf\n",&inval[0],&inval[1])) {
+				_size[0] = inval[0];
+				_size[1] = inval[1];
+			}
+			continue;
+		}
+		if (strcmp(name,"length") == 0) {
+			if (fscanf(handle," %lf %lf\n",&inval[0],&inval[1])) {
+				_length[0] = inval[0];
+				_length[1] = inval[1];
+			}
+			continue;
+		}
+		if (strcmp(name,"velocity") == 0) {
+			if (fscanf(handle," %lf %lf\n",&inval[0],&inval[1])) {
+				_velocity[0] = inval[0];
+				_velocity[1] = inval[1];
+			}
+			continue;
+		}
+		if (strcmp(name,"pressure") == 0) {
+			if (fscanf(handle," %lf\n",&inval[0]))
+				_pressure = inval[0];
+			continue;
+		}
+	}
+	fclose(handle);
 }
 
 /// Returns the number of cells in each dimension

@@ -21,6 +21,7 @@
 #include "parameter.hpp"
 #include "visu.hpp"
 #include "vtk.hpp"
+#include <iostream>
 
 int main(int argc, char **argv) {
 /*  // Create parameter and geometry instances with default values
@@ -79,5 +80,6 @@ int main(int argc, char **argv) {
       comp.TimeStep(false);
     comp.TimeStep(true);
   } */ 
+  std::cout << "Hello World" << std::endl;
   return 0;
 }
