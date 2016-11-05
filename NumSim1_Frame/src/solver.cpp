@@ -23,18 +23,10 @@ Solver::Solver(const Geometry *geom){
 }
 
 /// Destructor of the Solver Class
-virtual Solver::~Solver(){
+Solver::~Solver(){
   // hier fehlt noch was
 }
 
-/// This function must be implemented in a child class
-// @param [in][out] grid current values
-// @param [in]      rhs  right hand side values
-// @returns accumulated residual
-virtual real_t Solver::Cycle(Grid *grid, const Grid *rhs) const = 0{
-  // hier fehlt noch was
-  return 0.0; // falsch
-}
 
   //const Geometry *_geom;
 
@@ -46,7 +38,7 @@ real_t Solver::localRes(const Iterator &it, const Grid *grid, const Grid *rhs) c
 
   
 /// Constructs an actual SOR solver
-SOR::SOR(const Geometry *geom, const real_t &omega){
+SOR::SOR(const Geometry *geom, const real_t &omega) : Solver::Solver(geom) {
   // hier fehlt noch was
 }
 

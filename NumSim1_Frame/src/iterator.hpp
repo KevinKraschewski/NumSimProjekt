@@ -32,7 +32,10 @@ public:
   ///     Returns the current position value
   virtual const index_t &Value() const;
   /// Cast operator to convert Iterators to integers
-  virtual operator const index_t &() const;
+  operator const index_t& () const{
+    // hier fehlt noch was
+  return _value; // passt das????
+  }
   /// Returns the position coordinates
   virtual multi_index_t Pos() const;
 

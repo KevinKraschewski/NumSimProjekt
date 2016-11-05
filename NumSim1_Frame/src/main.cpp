@@ -23,7 +23,7 @@
 #include "vtk.hpp"
 
 int main(int argc, char **argv) {
-  // Create parameter and geometry instances with default values
+/*  // Create parameter and geometry instances with default values
   Parameter param;
   Geometry geom;
   // Create the fluid solver
@@ -78,6 +78,6 @@ int main(int argc, char **argv) {
     for (uint32_t i = 0; i < 9; ++i)
       comp.TimeStep(false);
     comp.TimeStep(true);
-  }
+  } */ 
   return 0;
 }

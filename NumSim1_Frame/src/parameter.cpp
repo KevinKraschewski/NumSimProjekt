@@ -66,41 +66,41 @@
   /// Nur ueber return. Bessere Moeglichkeit existiert wohl :)
   
   /// Reynoldszahl, fuer Charakteristik der Stroemung
-  const real_t Parameter::&Re() const{
-	  return _Re;
+  const real_t& Parameter::Re() const{
+	  return _re;
   }
   
   /// Relaxationsfaktor fuer den Loeser
-  const real_t Parameter::&Omega() const{
+  const real_t& Parameter::Omega() const{
 	  return _omega;
   }
   
   ///  Alpha aus dem Donor-Cell Scheme
-  const real_t Parameter::&Alpha() const{
+  const real_t& Parameter::Alpha() const{
 	  return _alpha;
   }
   
   /// Zeitschrittweite
-  const real_t Parameter::&Dt() const{
+  const real_t& Parameter::Dt() const{
 	  return _dt;
   }
   
   /// Endzeitpunkt
-  const real_t Parameter::&Tend() const{
+  const real_t& Parameter::Tend() const{
 	  return _tend;
   }
   
   /// Zahl der maximalen Iterationen, fuer Abbruchbedingung
-  const index_t Parameter::&IterMax() const{
+  const index_t& Parameter::IterMax() const{
 	  return _itermax;
   }
   
   /// Epsilon fuer die Abbruchbedingung bei der Iteration fuer den Druck
-  const real_t Parameter::&Eps() const{
+  const real_t& Parameter::Eps() const{
 	  return _eps;
   }
   
   /// Tau fuer die Stabilitaetsbedingung in der Zeit ( anstatt \leq RS -> < tau*RS)
-  const real_t Parameter::&Tau() const{
+  const real_t& Parameter::Tau() const{
 	  return _tau;
   }

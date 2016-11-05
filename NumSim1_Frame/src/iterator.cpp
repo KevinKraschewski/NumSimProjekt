@@ -32,12 +32,6 @@ const index_t& Iterator::Value() const{
   return _value;
 }
 
-/// Cast operator to convert Iterators to integers
-Iterator::operator const index_t& () const{
-  // hier fehlt noch was
-  return _value; // passt das????
-}
-
 /// Returns the position coordinates
 multi_index_t Iterator::Pos() const{
   // hier fehlt noch was
@@ -94,8 +88,7 @@ Iterator Iterator::Down() const{
   //bool _valid;
 
 /// Construct a new InteriorIterator
-InteriorIterator::InteriorIterator(const Geometry *geom){
-  Iterator:Iterator(geom);
+InteriorIterator::InteriorIterator(const Geometry *geom) : Iterator::Iterator(geom) {
   // hier fehlt noch was
 }
 
@@ -110,8 +103,7 @@ void InteriorIterator::Next(){
 }
 
 /// Constructs a new BoundaryIterator
-BoundaryIterator::BoundaryIterator(const Geometry *geom){
-  Iterator:Iterator(geom);
+BoundaryIterator::BoundaryIterator(const Geometry *geom) : Iterator::Iterator(geom) {
   // hier fehlt noch was
 }
 
