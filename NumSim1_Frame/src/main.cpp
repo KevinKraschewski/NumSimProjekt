@@ -82,8 +82,9 @@ int main(int argc, char **argv) {
     comp.TimeStep(true);
   } */ 
   Geometry *myGeo = new Geometry();
-  Iterator *myIt = new Iterator(myGeo, 1);
+  Iterator *myIt = new Iterator(myGeo, 7);
   bool valid = myIt->Valid();
+  myIt -> Pos();
   
   std::cout << valid << std::endl;
   return 0;

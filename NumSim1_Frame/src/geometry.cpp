@@ -37,8 +37,8 @@
 
 Geometry::Geometry(){
   // Default Geometry:
-    index_t x_size = 32;
-    index_t y_size = 32;
+    index_t x_size = 3;
+    index_t y_size = 2;
     _size = {x_size, y_size};
 
     real_t x_length = 1.0;

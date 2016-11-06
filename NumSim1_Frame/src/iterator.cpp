@@ -34,15 +34,15 @@ Iterator::Iterator(const Geometry *geom, const index_t &value){
 
 /// Returns the current position value
 const index_t& Iterator::Value() const{
-  return _value - 1;
+  return _value;
 }
 
 /// Returns the position coordinates
 multi_index_t Iterator::Pos() const{
   multi_index_t position; //Koordinaten in der Mitte :)
-  //x- Wert
-  position[0] = (_value-1)%(_geom->Size()[0]+2)+1;
-  position[1] = floor((_value-1)/(_geom->Size()[0]+2))+1;
+  
+  position[0] = (_value-1)%(_geom->Size()[0]+2)+1; // x-Wert
+  position[1] = floor((_value-1)/(_geom->Size()[0]+2))+1; // y-Wert
   //Hier...evtl. brauchen wir noch die genauen Angaben... :P
   //position[0] = (_value-1)%(_geom->Size()[0]+2)*_geom->Mesh()[0] - 1/2*_geom->Mesh()[0];
   //position[1] = _geom->Mesh()[1]*(ceil((_value-1)/(_geom->Size()[0]+2))) - 1/2*_geom->Mesh()[1];
@@ -60,14 +60,14 @@ void Iterator::First(){
 void Iterator::Next(){
   _value = _value + 1;
   _valid = this -> Valid();
-
 }
 
 /// Checks if the iterator still has a valid value
 bool Iterator::Valid() const{
   bool valid = true;
   index_t geo_size = (_geom->Size()[0]+2)*(_geom->Size()[1]+2);
-  if (_value > geo_size || _value < 1){
+  if (_value > geo_size || _value < 1)
+  {
     valid = false;
   }
   return valid;
@@ -80,15 +80,14 @@ bool Iterator::Valid() const{
 Iterator Iterator::Left() const{
     if (_value%(_geom->Size()[0]+2) == 1)
     {
-       Iterator *Iterator_left = new Iterator(_geom, _value);
-        return *Iterator_left;
+      Iterator *Iterator_left = new Iterator(_geom, _value);
+      return *Iterator_left;
     }
     else
     {
-        Iterator *Iterator_left = new Iterator(_geom, _value-1);
-        return *Iterator_left;
+      Iterator *Iterator_left = new Iterator(_geom, _value-1);
+      return *Iterator_left;
     }
-
 }
 
 /// Returns an Iterator that is located right from this one
@@ -96,15 +95,14 @@ Iterator Iterator::Left() const{
 Iterator Iterator::Right() const{
     if (_value%(_geom->Size()[0]+2) == 0)
     {
-       Iterator *Iterator_right = new Iterator(_geom, _value);
-        return *Iterator_right;
+      Iterator *Iterator_right = new Iterator(_geom, _value);
+      return *Iterator_right;
     }
     else
     {
-        Iterator *Iterator_right = new Iterator(_geom, _value+1);
-        return *Iterator_right;
+      Iterator *Iterator_right = new Iterator(_geom, _value+1);
+      return *Iterator_right;
     }
-
 }
 
 /// Returns an Iterator that is located above this one
@@ -112,13 +110,13 @@ Iterator Iterator::Right() const{
 Iterator Iterator::Top() const{
     if (_value>(_geom->Size()[0]+2)*(_geom->Size()[0]+1))
     {
-       Iterator *Iterator_top = new Iterator(_geom, _value);
-        return *Iterator_top;
+      Iterator *Iterator_top = new Iterator(_geom, _value);
+      return *Iterator_top;
     }
     else
     {
-        Iterator *Iterator_top = new Iterator(_geom, _value+(_geom->Size()[0]+2));
-        return *Iterator_top;
+      Iterator *Iterator_top = new Iterator(_geom, _value+(_geom->Size()[0]+2));
+      return *Iterator_top;
     }
 }
 
@@ -127,15 +125,14 @@ Iterator Iterator::Top() const{
 Iterator Iterator::Down() const{
     if (_value<=(_geom->Size()[0]+2))
     {
-       Iterator *Iterator_down = new Iterator(_geom, _value);
-        return *Iterator_down;
+      Iterator *Iterator_down = new Iterator(_geom, _value);
+      return *Iterator_down;
     }
     else
     {
-        Iterator *Iterator_down = new Iterator(_geom, _value-(_geom->Size()[0]+2));
-        return *Iterator_down;
+      Iterator *Iterator_down = new Iterator(_geom, _value-(_geom->Size()[0]+2));
+      return *Iterator_down;
     }
-
 }
 
 
@@ -146,14 +143,14 @@ Iterator Iterator::Down() const{
 /// Construct a new InteriorIterator
 // Konstruktor von Iterator wird zu Beginn schon aufgerufen, da es keine Konstructor für Iterator ohne Argumente gibt.
 InteriorIterator::InteriorIterator(const Geometry *geom) : Iterator::Iterator(geom) {
-  _value = geom->Size()+4;
+  _value = geom->Size()[0]+4;
   _valid = true;
 
 }
 
 /// Sets the iterator to the first element
 void InteriorIterator::First(){
-  _value = geom->Size()+4;
+  _value = _geom->Size()[0]+4;
   _valid = true;
 }
 
@@ -161,40 +158,61 @@ void InteriorIterator::First(){
 void InteriorIterator::Next(){
     if (this->Pos()[0]== _geom->Size()[0]+1)
     {
-        if (this->Pos()[1] == _geom->Size[1]+1)
+      if (this->Pos()[1] == _geom->Size()[1]+1)
         {
-            _valid = false;
+          _valid = false;
         }
         else
         {
-           _value = _value + 3;
+          _value = _value + 3;
         }
     }
     else
     {
-        _value = _value +1;
+      _value = _value + 1;
     }
 
 }
 
 /// Constructs a new BoundaryIterator
 BoundaryIterator::BoundaryIterator(const Geometry *geom) : Iterator::Iterator(geom) {
-  // hier fehlt noch was
+  _boundary = 1; //???
 }
 
 /// Sets the boundary to iterate
 void BoundaryIterator::SetBoundary(const index_t &boundary){
-  // hier fehlt noch was
+  _boundary = boundary; //???
 }
 
 /// Sets the iterator to the first element
 void BoundaryIterator::First(){
-  // hier fehlt noch was
+  _value = 1;
+  _valid = true;
 }
 
 /// Goes to the next element of the iterator, disables it if position is end
 void BoundaryIterator::Next(){
-  // hier fehlt noch was
+  if (this->Pos()[1] == 1)
+  {
+    _value = _value + 1;
+  }
+  else if (this->Pos()[1]== _geom->Size()[1]+2)
+  {
+    if (this->Pos()[0] == _geom->Size()[0]+2)
+    {
+      _valid = false;
+    }
+    else
+      _value = _value + 1;
+  }
+  else if (this->Pos()[0] == 1)
+  {
+    _value = _value + _geom->Size()[0] + 1;
+  } 
+  else
+  {
+    _value = _value + 1;
+  }
 }
 
 
