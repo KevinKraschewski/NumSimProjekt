@@ -21,6 +21,7 @@
 #include "parameter.hpp"
 #include "visu.hpp"
 #include "vtk.hpp"
+#include "iterator.hpp"
 #include <iostream>
 
 int main(int argc, char **argv) {
@@ -80,6 +81,10 @@ int main(int argc, char **argv) {
       comp.TimeStep(false);
     comp.TimeStep(true);
   } */ 
-  std::cout << "Hello World" << std::endl;
+  Geometry *myGeo = new Geometry();
+  Iterator *myIt = new Iterator(myGeo, 1);
+  bool valid = myIt->Valid();
+  
+  std::cout << valid << std::endl;
   return 0;
 }

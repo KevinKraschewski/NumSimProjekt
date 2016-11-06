@@ -37,12 +37,12 @@
 
 Geometry::Geometry(){
   // Default Geometry:
-    real_t x_size = 128;
-    real_t y_size = 128;
+    index_t x_size = 32;
+    index_t y_size = 32;
     _size = {x_size, y_size};
 
-    index_t x_length = 1.0;
-    index_t y_length = 1.0;
+    real_t x_length = 1.0;
+    real_t y_length = 1.0;
     _length = {x_length, y_length};
 
     _pressure = 1.0;

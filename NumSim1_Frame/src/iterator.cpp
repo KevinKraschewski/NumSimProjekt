@@ -20,33 +20,20 @@
 /// Constructs a new Iterator depending on a geometry
 Iterator::Iterator(const Geometry *geom){
 	_geom = geom;
-	_value = 1; // Value ist der Index das Arrays
+	_value = 1; // Value ist der Index das Arrays + 1
 	_valid = true;
-    index_t geo_size = (geom->Size()[1])*(geom->Size()[2]);
-
-    if (_value > geo_size)
-    {
-     _valid = false;
-    }
-    // Testausgabe für den Value-Wert
-	std::cout<<"Der Value Wert des Iterators ist :" << geo_size<<std::endl;
 }
 
 /// Constructs a new Iterator on a geometry with a defined starting value
 Iterator::Iterator(const Geometry *geom, const index_t &value){
 	_geom = geom;
 	_value = value;
-
-	//if (value <= (_geom.size[0]+2)*(_geom.size[1]+2))
-	//	_valid = true;
-	//else _valid = false;
-    real_t test = (geom->Length()[1])*(geom->Length()[2]);
-	std::cout<<"Der Value Wert des Iterators ist :" << test<<std::endl;
+	_valid = this -> Valid();
 }
 
 /// Returns the current position value
 const index_t& Iterator::Value() const{
-  return _value;
+  return _value - 1;
 }
 
 /// Returns the position coordinates
@@ -58,17 +45,24 @@ multi_index_t Iterator::Pos() const{
 
 /// Sets the iterator to the first element
 void Iterator::First(){
-  _value = 0;
+  _value = 1;
+  _valid = true;
 }
 
 /// Goes to the next element of the iterator, disables it if position is end
 void Iterator::Next(){
   _value = _value + 1;
+  
 }
 
 /// Checks if the iterator still has a valid value
 bool Iterator::Valid() const{
-  return _valid; // falsch
+  bool valid = true;
+  index_t geo_size = (_geom->Size()[0]+2)*(_geom->Size()[1]+2);
+  if (_value > geo_size || _value < 1){
+    valid = false;
+  }
+  return valid;
 }
 
 // TODO Prüfen, ob die Werte valid sind...
