@@ -14,23 +14,34 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
+#include <iostream>
 #include "iterator.hpp"
 
 /// Constructs a new Iterator depending on a geometry
 Iterator::Iterator(const Geometry *geom){
-	*_geom = geom;
-	_value = 1;
+	_geom = geom;
+	_value = 1; // Value ist der Index das Arrays
 	_valid = true;
+    index_t geo_size = (geom->Size()[1])*(geom->Size()[2]);
+
+    if (_value > geo_size)
+    {
+     _valid = false;
+    }
+    // Testausgabe für den Value-Wert
+	std::cout<<"Der Value Wert des Iterators ist :" << geo_size<<std::endl;
 }
 
 /// Constructs a new Iterator on a geometry with a defined starting value
 Iterator::Iterator(const Geometry *geom, const index_t &value){
-	*_geom = geom;
+	_geom = geom;
 	_value = value;
-	if (value <= (_geom.size[0]+2)*(_geom.size[1]+2))
-		_valid = true;
-	else _valid = false;
+
+	//if (value <= (_geom.size[0]+2)*(_geom.size[1]+2))
+	//	_valid = true;
+	//else _valid = false;
+    real_t test = (geom->Length()[1])*(geom->Length()[2]);
+	std::cout<<"Der Value Wert des Iterators ist :" << test<<std::endl;
 }
 
 /// Returns the current position value
@@ -40,52 +51,53 @@ const index_t& Iterator::Value() const{
 
 /// Returns the position coordinates
 multi_index_t Iterator::Pos() const{
-  // hier fehlt noch was
-  return 0; // falsch
+  multi_index_t position;
+  //position[1] = _geom->Size()*(_value%_geom->Length());
+  return position; // falsch
 }
 
 /// Sets the iterator to the first element
 void Iterator::First(){
-  // hier fehlt noch was
+  _value = 0;
 }
 
 /// Goes to the next element of the iterator, disables it if position is end
 void Iterator::Next(){
-  // hier fehlt noch was
+  _value = _value + 1;
 }
 
 /// Checks if the iterator still has a valid value
 bool Iterator::Valid() const{
-  // hier fehlt noch was
-  return true; // falsch
+  return _valid; // falsch
 }
 
+// TODO Prüfen, ob die Werte valid sind...
 /// Returns an Iterator that is located left from this one.
 // if we are at the left boundary, the cell sees itself
 Iterator Iterator::Left() const{
-  // hier fehlt noch was
-  return 0; // falsch
+  Iterator *Iterator_left = new Iterator(_geom, _value-1);
+  return *Iterator_left;
 }
 
 /// Returns an Iterator that is located right from this one
 // If we are at the right boundary, the cell sees itself
 Iterator Iterator::Right() const{
-  // hier fehlt noch was
-  return 0; // falsch
+  Iterator *Iterator_right = new Iterator(_geom, _value+1);
+  return *Iterator_right;
 }
 
 /// Returns an Iterator that is located above this one
 // If we are at the upper domain boundary, the cell sees itself
 Iterator Iterator::Top() const{
-  // hier fehlt noch was
-  return 0; // falsch
+  Iterator *Iterator_top = new Iterator(_geom, _value+(_geom->Size()[1]));
+  return *Iterator_top;
 }
 
 /// Returns an Iterator that is located below this one
 // If we are at the lower domain boundary, the cell sees itself
 Iterator Iterator::Down() const{
-  // hier fehlt noch was
-  return 0; // falsch
+  Iterator *Iterator_top = new Iterator(_geom, _value-(_geom->Size()[1]));
+  return *Iterator_top;
 }
 
 
@@ -95,7 +107,7 @@ Iterator Iterator::Down() const{
 
 /// Construct a new InteriorIterator
 // Konstruktor von Iterator wird zu Beginn schon aufgerufen, da es keine Konstructor für Iterator ohne Argumente gibt.
-InteriorIterator::InteriorIterator(const Geometry *geom) : Iterator::Iterator(geom) {  
+InteriorIterator::InteriorIterator(const Geometry *geom) : Iterator::Iterator(geom) {
   // hier fehlt noch was
 }
 
