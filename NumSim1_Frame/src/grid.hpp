@@ -81,6 +81,7 @@ private:
   real_t *_data;
   multi_real_t _offset;
   const Geometry *_geom;
+  int size;
 };
 //------------------------------------------------------------------------------
 #endif // __GRID_HPP

@@ -102,7 +102,9 @@ const multi_real_t& Geometry::Mesh() const{
 
 /// Updates the velocity field u
 void Geometry::Update_U(Grid *u) const{
-  // hier fehlt noch was
+  //Iterator It = Iterator(this, 1);
+  //while (It.Pos()[0] == 1)
+    
 }
 
 /// Updates the velocity field v

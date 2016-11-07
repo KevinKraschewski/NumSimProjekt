@@ -16,10 +16,16 @@
  */
 
 #include "grid.hpp"
+#include "geometry.hpp"
+#include "iterator.hpp"
+#include <iostream>
 
 /// Constructs a grid based on a geometry
 Grid::Grid(const Geometry *geom){
-  // hier fehlt noch was
+  _geom = geom;
+  _offset = {0, 0};
+  size = (_geom -> Size()[0]+2)*(_geom -> Size()[1]+2);
+  _data = new real_t[size]; //initialisiert ein Array der größe size und setzt _data als Zeiger auf das erste Element
 }
 
 /// Constructs a grid based on a geometry with an offset
@@ -27,30 +33,33 @@ Grid::Grid(const Geometry *geom){
 // @param offset distance of staggered grid point to cell's anchor point;
 //               (anchor point = lower left corner)
 Grid::Grid(const Geometry *geom, const multi_real_t &offset){
-  // hier fehlt noch was
+  _geom = geom;
+  _offset = offset;
+  size = (_geom -> Size()[0]+2)*(_geom -> Size()[1]+2);
+  _data = new real_t[size];
 }
 
 /// Deletes the grid
 Grid::~Grid(){
-  // hier fehlt noch was
+  delete[] _data;
 }
 
 /// Initializes the grid with a value
 void Grid::Initialize(const real_t &value){
-  // hier fehlt noch was
+  for (int i=0; i< (_geom -> Size()[0]+2)*(_geom -> Size()[1]+2); i++)
+  {
+    _data[i] = value;
+  }
 }
 
 /// Write access to the grid cell at position [it]
 real_t& Grid::Cell(const Iterator &it){
-  // hier fehlt noch was
-  real_t bla = 0.0; //falsch
-  return bla; //falsch
+  return _data[it.Value()-1]; // Durch return wird der Pointer zurueckgegeben und nicht der Wert
 }
 
 /// Read access to the grid cell at position [it]
 const real_t& Grid::Cell(const Iterator &it) const{
-  // hier fehlt noch was
-  return 0.0; //falsch
+  return _data[it.Value()-1];
 }
 
 /// Interpolate the value at a arbitrary position

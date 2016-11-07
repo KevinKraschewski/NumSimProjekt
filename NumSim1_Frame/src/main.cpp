@@ -81,11 +81,26 @@ int main(int argc, char **argv) {
       comp.TimeStep(false);
     comp.TimeStep(true);
   } */ 
-  Geometry *myGeo = new Geometry();
-  Iterator *myIt = new Iterator(myGeo, 7);
-  bool valid = myIt->Valid();
-  myIt -> Pos();
-  
+  Geometry myGeo = Geometry();
+  Iterator myIt = Iterator(&myGeo, 2);
+  bool valid = myIt.Valid();
   std::cout << valid << std::endl;
+  myIt.Pos();
+  Iterator myIt2 = myIt.Top();
+  myIt2.Pos();
+  Iterator myIt3 = myIt2.Left();
+  myIt3.Pos();
+  Iterator myIt4 = myIt3.Down();
+  myIt4.Pos();
+  Iterator myIt5 = myIt4.Right();
+  myIt5.Pos();
+  Parameter param = Parameter();
+  std::cout << param.Re() << std::endl;
+  std::cout << param.IterMax() << std::endl;
+  Grid gri = Grid(&myGeo);
+  gri.Initialize(20);
+  gri.Cell(myIt) = 50;
+  std::cout << gri.Cell(myIt) << std::endl;
+  
   return 0;
 }

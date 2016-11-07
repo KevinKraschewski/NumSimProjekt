@@ -108,7 +108,7 @@ Iterator Iterator::Right() const{
 /// Returns an Iterator that is located above this one
 // If we are at the upper domain boundary, the cell sees itself
 Iterator Iterator::Top() const{
-    if (_value>(_geom->Size()[0]+2)*(_geom->Size()[0]+1))
+    if (_value>(_geom->Size()[0]+2)*(_geom->Size()[1]+1))
     {
       Iterator *Iterator_top = new Iterator(_geom, _value);
       return *Iterator_top;
@@ -161,6 +161,7 @@ void InteriorIterator::Next(){
       if (this->Pos()[1] == _geom->Size()[1]+1)
         {
           _valid = false;
+          _value = _value + 1;
         }
         else
         {
@@ -181,7 +182,7 @@ BoundaryIterator::BoundaryIterator(const Geometry *geom) : Iterator::Iterator(ge
 
 /// Sets the boundary to iterate
 void BoundaryIterator::SetBoundary(const index_t &boundary){
-  _boundary = boundary; //???
+  _boundary = boundary;
 }
 
 /// Sets the iterator to the first element
@@ -201,6 +202,7 @@ void BoundaryIterator::Next(){
     if (this->Pos()[0] == _geom->Size()[0]+2)
     {
       _valid = false;
+      _value = _value +1;
     }
     else
       _value = _value + 1;
