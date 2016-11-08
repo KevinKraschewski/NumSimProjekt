@@ -73,22 +73,22 @@ real_t Grid::Interpolate(const multi_real_t &pos) const{
   distCell[0] = pos[0]-(index[0]-0.5)*(_geom -> Mesh()[0]); // Abstand des Punktes zum Mittelpunkt der Zelle
   distCell[1] = pos[1]-(index[1]-0.5)*(_geom -> Mesh()[1]);
   Iterator myIt = Iterator(_geom, index[0] + (index[1]-1) * (_geom->Size()[0]+4)); // Iterator in Zelle des Punktes
-  
+
   if (_offset[0] == 0 && _offset[1] == 0){ // Interpolation von p
-    if (distCell[0] >= 0 && distCell[1] >= 0){ 
+    if (distCell[0] >= 0 && distCell[1] >= 0){
       interpol = _data[myIt-1]*((_geom->Mesh()[0]-distCell[0])/_geom->Mesh()[0])*((_geom->Mesh()[1]-distCell[1])/_geom->Mesh()[1])
                + _data[myIt.Right()-1]*(distCell[0]/_geom->Mesh()[0])*((_geom->Mesh()[1]-distCell[1])/_geom->Mesh()[1])
-               + _data[myIt.Right().Top()-1]*(distCell[0]/_geom->Mesh()[0])*(distCell[1]/_geom->Mesh()[1]) 
+               + _data[myIt.Right().Top()-1]*(distCell[0]/_geom->Mesh()[0])*(distCell[1]/_geom->Mesh()[1])
                + _data[myIt.Top()-1]*((_geom->Mesh()[0]-distCell[0])/_geom->Mesh()[0])*(distCell[1]/_geom->Mesh()[1]);
     } else if (distCell[0] <= 0 && distCell[1] >= 0){
       interpol = _data[myIt-1]*(_geom->Mesh()[0]+distCell[0]/_geom->Mesh()[0])*((_geom->Mesh()[1]-distCell[1])/_geom->Mesh()[1])
-               + _data[myIt.Top()-1]*(_geom->Mesh()[0]+distCell[0]/_geom->Mesh()[0])*(distCell[1]/_geom->Mesh()[1]) 
+               + _data[myIt.Top()-1]*(_geom->Mesh()[0]+distCell[0]/_geom->Mesh()[0])*(distCell[1]/_geom->Mesh()[1])
                + _data[myIt.Top().Left()-1]*((-distCell[0])/_geom->Mesh()[0])*(distCell[1]/_geom->Mesh()[1])
                + _data[myIt.Left()-1]*((-distCell[0])/_geom->Mesh()[0])*((_geom->Mesh()[1]-distCell[1])/_geom->Mesh()[1]);
     } else if (distCell[0] <= 0 && distCell[1] <= 0){
       interpol = _data[myIt-1]*(_geom->Mesh()[0]+distCell[0]/_geom->Mesh()[0])*(_geom->Mesh()[1]+distCell[1]/_geom->Mesh()[1])
                + _data[myIt.Left()-1]*((-distCell[0])/_geom->Mesh()[0])*(_geom->Mesh()[1]+distCell[1]/_geom->Mesh()[1])
-               + _data[myIt.Left().Down()-1]*((-distCell[0])/_geom->Mesh()[0])*((-distCell[1])/_geom->Mesh()[1]) 
+               + _data[myIt.Left().Down()-1]*((-distCell[0])/_geom->Mesh()[0])*((-distCell[1])/_geom->Mesh()[1])
                + _data[myIt.Down()-1]*(_geom->Mesh()[0]+distCell[0]/_geom->Mesh()[0])*((-distCell[1])/_geom->Mesh()[1]);
     } else if (distCell[0] >= 0 && distCell[1] <= 0){
       interpol = _data[myIt-1]*((-distCell[0])/_geom->Mesh()[0])*(distCell[1]/_geom->Mesh()[1])
@@ -97,30 +97,16 @@ real_t Grid::Interpolate(const multi_real_t &pos) const{
                + _data[myIt.Right()-1]*(_geom->Mesh()[0]+distCell[0]/_geom->Mesh()[0])*(distCell[1]/_geom->Mesh()[1]);
     }
   } else if (_offset[0] == 0){ // Interpolation von v
-    distCell[1] = distCell[1] - _geom->Mesh()[1]/2;
     if (distCell[0] < 0){
-      interpol = _data[myIt-1]*(_geom->Mesh()[0]+distCell[0]/_geom->Mesh()[0])*(_geom->Mesh()[1]+distCell[1]/_geom->Mesh()[1])
-               + _data[myIt.Left()-1]*((-distCell[0])/_geom->Mesh()[0])*(_geom->Mesh()[1]+distCell[1]/_geom->Mesh()[1])
-               + _data[myIt.Left().Down()-1]*((-distCell[0])/_geom->Mesh()[0])*((-distCell[1])/_geom->Mesh()[1]) 
-               + _data[myIt.Down()-1]*(_geom->Mesh()[0]+distCell[0]/_geom->Mesh()[0])*((-distCell[1])/_geom->Mesh()[1]);
+
     } else {
-      interpol = _data[myIt-1]*((-distCell[0])/_geom->Mesh()[0])*(distCell[1]/_geom->Mesh()[1])
-               + _data[myIt.Down()-1]*((-distCell[0])/_geom->Mesh()[0])*((_geom->Mesh()[1]-distCell[1])/_geom->Mesh()[1])
-               + _data[myIt.Down().Right()-1]*(_geom->Mesh()[0]+distCell[0]/_geom->Mesh()[0])*((_geom->Mesh()[1]-distCell[1])/_geom->Mesh()[1])
-               + _data[myIt.Right()-1]*(_geom->Mesh()[0]+distCell[0]/_geom->Mesh()[0])*(distCell[1]/_geom->Mesh()[1]);
+
     }
-  } else if (_offset[1] == 0){ // Interpolation von u 
-    distCell[0] = distCell[0] - _geom->Mesh()[0]/2;
+  } else if (_offset[1] == 0){ // Interpolation von u
     if (distCell[1] < 0){
-      interpol = _data[myIt-1]*(_geom->Mesh()[0]+distCell[0]/_geom->Mesh()[0])*(_geom->Mesh()[1]+distCell[1]/_geom->Mesh()[1])
-               + _data[myIt.Left()-1]*((-distCell[0])/_geom->Mesh()[0])*(_geom->Mesh()[1]+distCell[1]/_geom->Mesh()[1])
-               + _data[myIt.Left().Down()-1]*((-distCell[0])/_geom->Mesh()[0])*((-distCell[1])/_geom->Mesh()[1]) 
-               + _data[myIt.Down()-1]*(_geom->Mesh()[0]+distCell[0]/_geom->Mesh()[0])*((-distCell[1])/_geom->Mesh()[1]);
+
     } else {
-      interpol = _data[myIt-1]*(_geom->Mesh()[0]+distCell[0]/_geom->Mesh()[0])*((_geom->Mesh()[1]-distCell[1])/_geom->Mesh()[1])
-               + _data[myIt.Top()-1]*(_geom->Mesh()[0]+distCell[0]/_geom->Mesh()[0])*(distCell[1]/_geom->Mesh()[1]) 
-               + _data[myIt.Top().Left()-1]*((-distCell[0])/_geom->Mesh()[0])*(distCell[1]/_geom->Mesh()[1])
-               + _data[myIt.Left()-1]*((-distCell[0])/_geom->Mesh()[0])*((_geom->Mesh()[1]-distCell[1])/_geom->Mesh()[1]);
+
     }
   }
 
@@ -129,56 +115,62 @@ real_t Grid::Interpolate(const multi_real_t &pos) const{
 
 /// Computes the left-sided difference quatient in x-dim at [it]
 real_t Grid::dx_l(const Iterator &it) const{
-  // hier fehlt noch was
-  return 0.0; //falsch
+    //TODO Fehler am Ghostand abfangen
+  real_t dxL = (_data[it-1] - _data[it-2])/_geom->Mesh()[0];
+  return dxL;
 }
 
 /// Computes the right-sided difference quatient in x-dim at [it]
 real_t Grid::dx_r(const Iterator &it) const{
-  // hier fehlt noch was
-  return 0.0; //falsch
+//TODO Fehler am Ghostand abfangen
+  real_t dxR = (_data[it] - _data[it-1])/_geom->Mesh()[0];
+  return dxR;
 }
 
 /// Computes the left-sided difference quatient in y-dim at [it]
 real_t Grid::dy_l(const Iterator &it) const{
-  // hier fehlt noch was
-  return 0.0; //falsch
+  real_t dyL = (_data[it-1] - _data[it.Down()-1])/_geom->Mesh()[1];
+  return dyL;
 }
 
 /// Computes the right-sided difference quatient in y-dim at [it]
 real_t Grid::dy_r(const Iterator &it) const{
-  // hier fehlt noch was
-  return 0.0; //falsch
+  real_t dyR = (_data[it.Top()-1] - _data[it-1])/_geom->Mesh()[1];
+  return dyR;
 }
 
 /// Computes the central difference quatient of 2nd order in x-dim at [it]
 real_t Grid::dxx(const Iterator &it) const{
-  // hier fehlt noch was
-  return 0.0; //falsch
+  real_t dXX = (_data[it]-2*_data[it-1]+_data[it-2])/pow(_geom->Mesh()[0],2);
+  return dXX;
 }
 
 /// Computes the central difference quatient of 2nd order in y-dim at [it]
 real_t Grid::dyy(const Iterator &it) const{
-  // hier fehlt noch was
-  return 0.0; //falsch
+  real_t dYY = (_data[it.Top()-1]-2*_data[it-1]+_data[it.Down()-1])/pow(_geom->Mesh()[1],2);
+  return dYY; //Richtig :) :)
 }
 
 /// Computes u*du/dx with the donor cell method
 real_t Grid::DC_udu_x(const Iterator &it, const real_t &alpha) const{
-  // hier fehlt noch was
-  return 0.0; //falsch
+    real_t m1 = pow(1/2*(_data[it-1]+_data[it]),2) - pow(1/2*(_data[it-2]+_data[it-1]),2);
+    real_t m2 = 1/4*fabs(_data[it-1]+_data[it])*(_data[it-1]-_data[it]) -  1/4*fabs(_data[it-2]+_data[it-1])*(_data[it-2]-_data[it-1]);
+    real_t ududx = (1/_geom->Mesh()[0])*m1 + alpha*(1/_geom->Mesh()[0])*m2;
+  return ududx;
 }
 
-/// Computes v*du/dy with the donor cell method
+/// Computes v*du/dy with the donor cell method 2.Formel S.25
 real_t Grid::DC_vdu_y(const Iterator &it, const real_t &alpha, const Grid *v) const{
-  // hier fehlt noch was
-  return 0.0; //falsch
+    //real_t m1 = pow(1/2*(v->Cell[it-1]+_data[it]),2) - pow(1/2*(_data[it-2]+_data[it-1]),2);
+  //real_t m1 = 1/4*(v->Cell[it-1]+v->Cell[it])*(v->Cell[it-1]+v->Cell[it]) -  1/4*fabs(_data[it-2]+_data[it-1])*(_data[it-2]-_data[it-1]);
+  real_t vdudy = 0.0; // (1/_geom->Mesh()[1])*m1 + alpha*(1/_geom->Mesh()[1])*m2;
+  return vdudy; //falsch
 }
 
 /// Computes u*dv/dx with the donor cell method
 real_t Grid::DC_udv_x(const Iterator &it, const real_t &alpha, const Grid *u) const{
-  // hier fehlt noch was
-  return 0.0; //falsch
+  real_t udvdx = 0.0;
+  return udvdx;
 }
 
 /// Computes v*dv/dy with the donor cell method
@@ -189,26 +181,66 @@ real_t Grid::DC_vdv_y(const Iterator &it, const real_t &alpha) const{
 
 /// Returns the maximal value of the grid
 real_t Grid::Max() const{
-  // hier fehlt noch was
-  return 0.0; //falsch
+  InteriorIterator intIt = InteriorIterator(_geom);
+  real_t val = _data[intIt-1];
+  real_t valTemp;
+  while (intIt.Valid())
+  {
+      valTemp = _data[intIt-1];
+      if (valTemp > val)
+      {
+          val = valTemp;
+      }
+
+      intIt.Next();
+
+  }
+  return val;
 }
 
 /// Returns the minimal value of the grid
 real_t Grid::Min() const{
-  // hier fehlt noch was
-  return 0.0; //falsch
+  InteriorIterator intIt = InteriorIterator(_geom);
+  real_t val = _data[intIt-1];
+  real_t valTemp;
+  while (intIt.Valid())
+  {
+      valTemp = _data[intIt-1];
+      if (valTemp < val)
+      {
+          val = valTemp;
+      }
+
+      intIt.Next();
+
+  }
+  return val;
 }
 
 /// Returns the absolute maximal value
 real_t Grid::AbsMax() const{
-  // hier fehlt noch was
-  return 0.0; //falsch
+  InteriorIterator intIt = InteriorIterator(_geom);
+  real_t val = fabs(_data[intIt-1]);
+  real_t valTemp;
+  while (intIt.Valid())
+  {
+      valTemp = fabs(_data[intIt-1]);
+      if (valTemp > val)
+      {
+          val = valTemp;
+      }
+
+      intIt.Next();
+
+  }
+  return val;
 }
+
+
 
 /// Returns a pointer to the raw data
 real_t* Grid::Data(){
-  // hier fehlt noch was
-  return 0; //falsch
+  return _data;
 }
 
 
