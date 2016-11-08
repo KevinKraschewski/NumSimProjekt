@@ -19,6 +19,7 @@
 #include "geometry.hpp"
 #include "iterator.hpp"
 #include <iostream>
+#include <math.h>
 
 /// Constructs a grid based on a geometry
 Grid::Grid(const Geometry *geom){
@@ -54,18 +55,53 @@ void Grid::Initialize(const real_t &value){
 
 /// Write access to the grid cell at position [it]
 real_t& Grid::Cell(const Iterator &it){
-  return _data[it.Value()-1]; // Durch return wird der Pointer zurueckgegeben und nicht der Wert
+  return _data[it-1]; // Durch return wird der Pointer zurueckgegeben und nicht der Wert
 }
 
 /// Read access to the grid cell at position [it]
 const real_t& Grid::Cell(const Iterator &it) const{
-  return _data[it.Value()-1];
+  return _data[it-1];
 }
 
 /// Interpolate the value at a arbitrary position
 real_t Grid::Interpolate(const multi_real_t &pos) const{
-  // hier fehlt noch was
-  return 0.0; //falsch
+  real_t interpol = 0.0;
+  multi_index_t index = {0,0};
+  multi_real_t distCell = {0.0,0.0};
+  index[0] = ceil(pos[0]/(_geom -> Mesh()[0])); //Position der Zelle des Punktes
+  index[1] = ceil(pos[1]/(_geom -> Mesh()[1]));
+  distCell[0] = pos[0]-(index[0]-0.5)*(_geom -> Mesh()[0]); // Abstand des Punktes zum Mittelpunkt der Zelle
+  distCell[1] = pos[1]-(index[1]-0.5)*(_geom -> Mesh()[1]);
+  Iterator myIt = Iterator(_geom, index[0] + (index[1]-1) * (_geom->Size()[0]+4)); // Iterator in Zelle des Punktes
+  
+  if (_offset[0] == 0 && _offset[1] == 0){ // Interpolation von p
+    if (distCell[0] >= 0 && distCell[1] >= 0){ 
+      interpol = _data[myIt-1]*(4) 
+               + _data[myIt.Right()-1]*(4) 
+               + _data[myIt.Right().Top()-1]*(4) 
+               + _data[myIt.Top()-1]*(4);
+    } else if (distCell[0] <= 0 && distCell[1] >= 0){
+    
+    } else if (distCell[0] <= 0 && distCell[1] <= 0){
+
+    } else if (distCell[0] >= 0 && distCell[1] <= 0){
+    
+    }
+  } else if (_offset[0] == 0){ // Interpolation von v
+    if (distCell[0] < 0){
+    
+    } else {
+    
+    }
+  } else if (_offset[1] == 0){ // Interpolation von u 
+    if (distCell[1] < 0){
+    
+    } else {
+    
+    }
+  }
+
+  return interpol;
 }
 
 /// Computes the left-sided difference quatient in x-dim at [it]

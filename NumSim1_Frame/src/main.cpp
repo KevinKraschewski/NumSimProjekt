@@ -101,6 +101,8 @@ int main(int argc, char **argv) {
   gri.Initialize(20);
   gri.Cell(myIt) = 50;
   std::cout << gri.Cell(myIt) << std::endl;
+  int i = myIt;
+  std::cout << i << std::endl;
   
   return 0;
 }
