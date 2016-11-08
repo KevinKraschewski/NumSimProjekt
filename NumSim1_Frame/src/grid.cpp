@@ -76,16 +76,25 @@ real_t Grid::Interpolate(const multi_real_t &pos) const{
   
   if (_offset[0] == 0 && _offset[1] == 0){ // Interpolation von p
     if (distCell[0] >= 0 && distCell[1] >= 0){ 
-      interpol = _data[myIt-1]*(4) 
-               + _data[myIt.Right()-1]*(4) 
-               + _data[myIt.Right().Top()-1]*(4) 
-               + _data[myIt.Top()-1]*(4);
+      interpol = _data[myIt-1]*((_geom->Mesh()[0]-distCell[0])/_geom->Mesh()[0])*((_geom->Mesh()[1]-distCell[1])/_geom->Mesh()[1])
+               + _data[myIt.Right()-1]*(distCell[0]/_geom->Mesh()[0])*((_geom->Mesh()[1]-distCell[1])/_geom->Mesh()[1])
+               + _data[myIt.Right().Top()-1]*(distCell[0]/_geom->Mesh()[0])*(distCell[1]/_geom->Mesh()[1]) 
+               + _data[myIt.Top()-1]*((_geom->Mesh()[0]-distCell[0])/_geom->Mesh()[0])*(distCell[1]/_geom->Mesh()[1]);
     } else if (distCell[0] <= 0 && distCell[1] >= 0){
-    
+      interpol = _data[myIt-1]*(_geom->Mesh()[0]+distCell[0]/_geom->Mesh()[0])*((_geom->Mesh()[1]-distCell[1])/_geom->Mesh()[1])
+               + _data[myIt.Top()-1]*(_geom->Mesh()[0]+distCell[0]/_geom->Mesh()[0])*(distCell[1]/_geom->Mesh()[1]) 
+               + _data[myIt.Top().Left()-1]*((-distCell[0])/_geom->Mesh()[0])*(distCell[1]/_geom->Mesh()[1])
+               + _data[myIt.Left()-1]*((-distCell[0])/_geom->Mesh()[0])*((_geom->Mesh()[1]-distCell[1])/_geom->Mesh()[1]);
     } else if (distCell[0] <= 0 && distCell[1] <= 0){
-
+      interpol = _data[myIt-1]*(_geom->Mesh()[0]+distCell[0]/_geom->Mesh()[0])*(_geom->Mesh()[1]+distCell[1]/_geom->Mesh()[1])
+               + _data[myIt.Left()-1]*((-distCell[0])/_geom->Mesh()[0])*(_geom->Mesh()[1]+distCell[1]/_geom->Mesh()[1])
+               + _data[myIt.Left().Down()-1]*((-distCell[0])/_geom->Mesh()[0])*((-distCell[1])/_geom->Mesh()[1]) 
+               + _data[myIt.Down()-1]*(_geom->Mesh()[0]+distCell[0]/_geom->Mesh()[0])*((-distCell[1])/_geom->Mesh()[1]);
     } else if (distCell[0] >= 0 && distCell[1] <= 0){
-    
+      interpol = _data[myIt-1]*((-distCell[0])/_geom->Mesh()[0])*(distCell[1]/_geom->Mesh()[1])
+               + _data[myIt.Down()-1]*((-distCell[0])/_geom->Mesh()[0])*((_geom->Mesh()[1]-distCell[1])/_geom->Mesh()[1])
+               + _data[myIt.Down().Right()-1]*(_geom->Mesh()[0]+distCell[0]/_geom->Mesh()[0])*((_geom->Mesh()[1]-distCell[1])/_geom->Mesh()[1])
+               + _data[myIt.Right()-1]*(_geom->Mesh()[0]+distCell[0]/_geom->Mesh()[0])*(distCell[1]/_geom->Mesh()[1]);
     }
   } else if (_offset[0] == 0){ // Interpolation von v
     if (distCell[0] < 0){
