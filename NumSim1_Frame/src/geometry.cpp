@@ -156,7 +156,7 @@ Iterator it = Iterator(this, 1);
     it = it.Top();
   }
   while (it.Pos()[0] != (_size[0]+2)){
-    p->Cell(it) = 2*_pressure - p->Cell(it.Down());
+    p->Cell(it) = p->Cell(it.Down());
     it.Next();
   }
   while (it.Pos()[1] != 1){

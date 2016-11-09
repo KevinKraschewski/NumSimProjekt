@@ -15,11 +15,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <math.h>
+#include <iostream>
+#include "geometry.hpp"
+#include "grid.hpp"
+#include "parameter.hpp"
 #include "compute.hpp"
+#include "solver.hpp"
 
 /// Creates a compute instance with given geometry and parameter
 Compute::Compute(const Geometry *geom, const Parameter *param){
-  // hier fehlt noch was
+  _t = 0;//param->Dt();
+  _geom  = geom;
+  _param = param;
+  _dt = fmin(param->Dt(), param->Tau()*(param->Re()/2)*(pow(_geom->Mesh()[0],2) * pow(_geom->Mesh()[1],2))/(2*(pow(_geom->Mesh()[0],2) + pow(_geom->Mesh()[1],2))));
+  _epslimit = _param->Eps();//*_param->Eps()*_geom->Size()[0]*_geom->Size()[1]; //N entspricht sizex*sizey ->Wurzel und N stehen schon im Solver beim Res 
+  _u = new Grid(_geom, {_geom->Mesh()[0]/2, 0.0});
+  _v = new Grid(_geom, {0.0, _geom->Mesh()[1]/2});
+  _p = new Grid(_geom);
+  _F = new Grid(_geom, {_geom->Mesh()[0]/2, 0.0});
+  _G = new Grid(_geom, {0.0, _geom->Mesh()[1]/2});
+  _rhs = new Grid(_geom);
+  _tmp = new Grid(_geom);
+  _solver = new SOR(_geom, _param->Omega());
 }
 /// Deletes all grids
 Compute::~Compute(){
@@ -30,7 +48,10 @@ Compute::~Compute(){
 // @ param printInfo print information about current solver state (residual
 // etc.)
 void Compute::TimeStep(bool printInfo){
-  // hier fehlt noch was
+  if (printInfo)
+	{
+ 		std::cout << "Info: "<< std::endl;
+	}
 }
 
 /// Returns the simulated time in total
@@ -60,19 +81,20 @@ const Grid* Compute::GetRHS() const{
 
 /// Computes and returns the absolute velocity
 const Grid* Compute::GetVelocity(){
-  // hier fehlt noch was
-  return _F; //falsch
+  
+  return _F; 
 }
 
 /// Computes and returns the vorticity
 const Grid* Compute::GetVorticity(){
-  // hier fehlt noch was
+
   return _F; //falsch
 }
 
 /// Computes and returns the stream line values
 const Grid* Compute::GetStream(){
-  // hier fehlt noch was
+  //Geometry geoF = Geometry();
+  //Grid F = Grid(geomF, offset)
   return _F; //falsch
 }
 
@@ -120,5 +142,5 @@ const Grid* Compute::GetStream(){
   
   /// Compute the RHS of the poisson equation
   void Compute::RHS(const real_t &dt){
-    // hier fehlt noch was
+    
   }

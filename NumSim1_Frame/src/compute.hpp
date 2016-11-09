@@ -56,7 +56,7 @@ private:
   real_t _t;
 
   // donor-cell diffusion condition (p. 27)
-  real_t _dtlimit;
+  real_t _dt;
 
   // limit for residual
   real_t _epslimit;
