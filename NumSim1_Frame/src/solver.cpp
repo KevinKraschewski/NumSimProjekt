@@ -16,15 +16,18 @@
  */
 
 #include "solver.hpp"
+#include "iterator.hpp"
+#include "grid.hpp"
+#include <math.h>
 
 /// Constructor of the abstract Solver class
 Solver::Solver(const Geometry *geom){
-  // hier fehlt noch was
+  _geom = geom;
 }
 
 /// Destructor of the Solver Class
 Solver::~Solver(){
-  // hier fehlt noch was
+  
 }
 
 
@@ -32,27 +35,35 @@ Solver::~Solver(){
 
 /// Returns the residual at [it] for the pressure-Poisson equation
 real_t Solver::localRes(const Iterator &it, const Grid *grid, const Grid *rhs) const{
-  // hier fehlt noch was
-  return 0.0; // falsch
+  real_t res = 0.0;
+  res = -(grid->Cell(it.Left()) + grid->Cell(it.Right()))/pow(_geom->Mesh()[0],2) + (grid->Cell(it.Down()) + grid->Cell(it.Top()))/pow(_geom->Mesh()[1],2) - 2*(pow(_geom->Mesh()[0],2) + pow(_geom->Mesh()[1],2))*grid->Cell(it)/(pow(_geom->Mesh()[0],2) * pow(_geom->Mesh()[1],2)) - rhs->Cell(it);
+  return res;
 }
 
   
 /// Constructs an actual SOR solver
 SOR::SOR(const Geometry *geom, const real_t &omega) : Solver::Solver(geom) {
-  // hier fehlt noch was
+  _omega = omega;
 }
 
 /// Destructor
 SOR::~SOR(){
-  // hier fehlt noch was
+  
 }
 
 /// Returns the total residual and executes a solver cycle
 // @param grid current pressure values
 // @param rhs right hand side
 real_t SOR::Cycle(Grid *grid, const Grid *rhs) const{
-  // hier fehlt noch was
-  return 0.0; // falsch
+  real_t totRes = 0.0;
+  real_t res = 0.0;
+  for(InteriorIterator intIt = InteriorIterator(_geom); intIt.Valid(); intIt.Next()){
+    res = localRes(intIt, grid, rhs);
+    totRes = totRes + pow(res,2);
+    grid->Cell(intIt) = grid->Cell(intIt) - _omega*(pow(_geom->Mesh()[0],2) * pow(_geom->Mesh()[1],2))/(2*(pow(_geom->Mesh()[0],2) + pow(_geom->Mesh()[1],2))) * res;
+  }
+  totRes = sqrt(totRes)/(_geom->Size()[0]*_geom->Size()[1]);
+  return totRes;
 }
 
 

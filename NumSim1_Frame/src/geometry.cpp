@@ -16,6 +16,8 @@
  */
 
 #include "geometry.hpp"
+#include "grid.hpp"
+#include "iterator.hpp"
 #include <cstdio>
 #include <cstring>
 #include <cstdlib>
@@ -102,19 +104,65 @@ const multi_real_t& Geometry::Mesh() const{
 
 /// Updates the velocity field u
 void Geometry::Update_U(Grid *u) const{
-  //Iterator It = Iterator(this, 1);
-  //while (It.Pos()[0] == 1)
-    
+  Iterator it = Iterator(this, 1);
+  while (it.Pos()[1] == 1){
+    u->Cell(it) = - u->Cell(it.Top());
+    it.Next();
+  }
+  while (it.Pos()[1] != (_size[1]+2)){
+    u->Cell(it) = 0.0;
+    it = it.Top();
+  }
+  while (it.Pos()[0] != (_size[0]+1)){
+    u->Cell(it) = 2*_velocity[0] - u->Cell(it.Down());
+    it.Next();
+  }
+  while (it.Pos()[1] != 1){
+    u->Cell(it) = 0.0;
+    it = it.Down();
+  }
 }
 
 /// Updates the velocity field v
 void Geometry::Update_V(Grid *v) const{
-  // hier fehlt noch was
+  Iterator it = Iterator(this, 1);
+  while (it.Pos()[1] == 1){
+    v->Cell(it) = 0.0;
+    it.Next();
+  }
+  while (it.Pos()[1] != (_size[1]+1)){
+    v->Cell(it) = - v->Cell(it.Right());
+    it = it.Top();
+  }
+  while (it.Pos()[0] != (_size[0]+2)){
+    v->Cell(it) = _velocity[1];
+    it.Next();
+  }
+  while (it.Pos()[1] != 1){
+    v->Cell(it) = - v->Cell(it.Left());
+    it = it.Down();
+  }
 }
 
 /// Updates the pressure field p
 void Geometry::Update_P(Grid *p) const{
-  // hier fehlt noch was
+Iterator it = Iterator(this, 1);
+  while (it.Pos()[1] == 1){
+    p->Cell(it) = p->Cell(it.Top());
+    it.Next();
+  }
+  while (it.Pos()[1] != (_size[1]+2)){
+    p->Cell(it) = p->Cell(it.Right());
+    it = it.Top();
+  }
+  while (it.Pos()[0] != (_size[0]+2)){
+    p->Cell(it) = 2*_pressure - p->Cell(it.Down());
+    it.Next();
+  }
+  while (it.Pos()[1] != 1){
+    p->Cell(it) = p->Cell(it.Left());
+    it = it.Down();
+  }
 }
 
 
