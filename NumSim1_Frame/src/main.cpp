@@ -25,7 +25,7 @@
 #include <iostream>
 
 int main(int argc, char **argv) {
-/*  // Create parameter and geometry instances with default values
+  // Create parameter and geometry instances with default values
   Parameter param;
   Geometry geom;
   // Create the fluid solver
@@ -80,8 +80,8 @@ int main(int argc, char **argv) {
     for (uint32_t i = 0; i < 9; ++i)
       comp.TimeStep(false);
     comp.TimeStep(true);
-  } */ 
-  Geometry myGeo = Geometry();
+  }
+  /*Geometry myGeo = Geometry();
   Iterator myIt = Iterator(&myGeo, 2);
   bool valid = myIt.Valid();
   std::cout << valid << std::endl;
@@ -102,7 +102,7 @@ int main(int argc, char **argv) {
   gri.Cell(myIt) = 50;
   std::cout << gri.Cell(myIt) << std::endl;
   int i = myIt;
-  std::cout << i << std::endl;
+  std::cout << i << std::endl; */
   
   return 0;
 }

@@ -62,7 +62,6 @@ real_t SOR::Cycle(Grid *grid, const Grid *rhs) const{
     totRes = totRes + pow(res,2);
     grid->Cell(intIt) = grid->Cell(intIt) - _omega*(pow(_geom->Mesh()[0],2) * pow(_geom->Mesh()[1],2))/(2*(pow(_geom->Mesh()[0],2) + pow(_geom->Mesh()[1],2))) * res;
   }
-  totRes = sqrt(totRes)/(_geom->Size()[0]*_geom->Size()[1]);
   return totRes;
 }
 
