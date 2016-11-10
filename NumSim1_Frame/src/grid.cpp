@@ -165,30 +165,30 @@ real_t Grid::dyy(const Iterator &it) const{
   return dYY; //Richtig :) :)
 }
 
-/// Computes u*du/dx with the donor cell method
-real_t Grid::DC_udu_x(const Iterator &it, const real_t &alpha) const{
+/// Computes d(u*u)/dx with the donor cell method
+real_t Grid::DC_duu_dx(const Iterator &it, const real_t &alpha) const{
     real_t m1 = pow(1/2*(_data[it-1]+_data[it]),2) - pow(1/2*(_data[it-2]+_data[it-1]),2);
     real_t m2 = 1/4*fabs(_data[it-1]+_data[it])*(_data[it-1]-_data[it]) -  1/4*fabs(_data[it-2]+_data[it-1])*(_data[it-2]-_data[it-1]);
     real_t ududx = (1/_geom->Mesh()[0])*m1 + alpha*(1/_geom->Mesh()[0])*m2;
   return ududx;
 }
 
-/// Computes v*du/dy with the donor cell method 2.Formel S.25
-real_t Grid::DC_vdu_y(const Iterator &it, const real_t &alpha, const Grid *v) const{
+/// Computes d(v*u)/dy with the donor cell method 2.Formel S.25
+real_t Grid::DC_dvu_dy(const Iterator &it, const real_t &alpha, const Grid *v) const{
     //real_t m1 = pow(1/2*(v->Cell[it-1]+_data[it]),2) - pow(1/2*(_data[it-2]+_data[it-1]),2);
   //real_t m1 = 1/4*(v->Cell[it-1]+v->Cell[it])*(v->Cell[it-1]+v->Cell[it]) -  1/4*fabs(_data[it-2]+_data[it-1])*(_data[it-2]-_data[it-1]);
   real_t vdudy = 0.0; // (1/_geom->Mesh()[1])*m1 + alpha*(1/_geom->Mesh()[1])*m2;
   return vdudy; //falsch
 }
 
-/// Computes u*dv/dx with the donor cell method
-real_t Grid::DC_udv_x(const Iterator &it, const real_t &alpha, const Grid *u) const{
+/// Computes d(u*v)/dx with the donor cell method
+real_t Grid::DC_duv_dx(const Iterator &it, const real_t &alpha, const Grid *u) const{
   real_t udvdx = 0.0;
   return udvdx;
 }
 
-/// Computes v*dv/dy with the donor cell method
-real_t Grid::DC_vdv_y(const Iterator &it, const real_t &alpha) const{
+/// Computes d(v*v)/dy with the donor cell method
+real_t Grid::DC_dvv_dy(const Iterator &it, const real_t &alpha) const{
   // hier fehlt noch was
   return 0.0; //falsch
 }
