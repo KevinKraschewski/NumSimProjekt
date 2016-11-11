@@ -29,24 +29,20 @@
 int main(int argc, char *argv[]) {
   // Create parameter and geometry instances and load values
   Parameter param;
-  param.Load("param.txt");
+  param.Load("default.param");
   Geometry geom;
-
   const multi_real_t &h = geom.Mesh();
-  multi_real_t offset(0, h[1]/2);
-  Grid *g = new Grid(&geom, offset);
+  Grid *g = new Grid(&geom);
   g->Initialize(0);
 
   // Create and initialize the visualization
   Renderer visu(geom.Length(), geom.Mesh());
   visu.Init(600,600);//(800, 800);
+  for (InteriorIterator it = InteriorIterator(&geom); it.Valid(); it.Next()) {
 
-  for (InteriorIterator it (g); it.Valid(); it.Next()) {
-
-    g->Cell(it) = 100;
+    g->Cell(it) 	= 100;
     visu.Render(g);
-
-    for (Iterator it(g); it.Valid(); it.Next()) {
+    /*for (InteriorIterator it = InteriorIterator(&geom); it.Valid(); it.Next()) {
         if (it.Pos()[0] == 0) {
             std::cout << std::endl;
         }
@@ -54,6 +50,7 @@ int main(int argc, char *argv[]) {
     }
     std::cout << std::endl;
     std::cin.get();
+	*/
 
     g->Cell(it) = 0;
   }

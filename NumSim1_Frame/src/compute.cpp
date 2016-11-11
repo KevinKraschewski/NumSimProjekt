@@ -106,12 +106,11 @@ const Grid* Compute::GetRHS() const{
 const Grid* Compute::GetVelocity(){
   Grid* _vel = new Grid(_geom);
   std::cout<<_geom->Size()[0]<<std::endl;
-	//Beim Aufruf von Valid() verwenden wir nicht den Wert, den wir in Next Setzen!!
+  std::cout<<_geom->Size()[1]<<std::endl;
   for(InteriorIterator intIt = InteriorIterator(_geom); intIt.Valid(); intIt.Next()){
     	_vel->Cell(intIt) = sqrt(pow(_u->Cell(intIt), 2) + pow(_v->Cell(intIt) ,2));
-	std::cout<<intIt.Valid()<<std::endl;
   }
-  return _vel; 
+  return _vel;
 }
 
 /// Computes and returns the vorticity

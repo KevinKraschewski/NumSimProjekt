@@ -64,13 +64,14 @@ void Iterator::Next(){
 
 /// Checks if the iterator still has a valid value
 bool Iterator::Valid() const{
-  bool valid = true;
+ /*  bool valid = true;
   index_t geo_size = (_geom->Size()[0]+2)*(_geom->Size()[1]+2);
   if (_value > geo_size || _value < 1)
   {
     valid = false;
   }
-  return valid;
+ */
+  return _valid;
 }
 
 // TODO Prüfen, ob die Werte valid sind...
@@ -161,7 +162,7 @@ void InteriorIterator::Next(){
       if (this->Pos()[1] == _geom->Size()[1]+1)
         {
           _valid = false;
-          _value = _value + 1;
+          //_value = _value+1;  <- WARUM?
         }
         else
         {

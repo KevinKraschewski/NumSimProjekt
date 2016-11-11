@@ -44,6 +44,7 @@ int main(int argc, char **argv) {
   bool run = true;
 
   visugrid = comp.GetVelocity();
+  std::cout<<"Velo fertig"<<std::endl;
   // Run the time steps until the end is reached
   while (comp.GetTime() < param.Tend() && run) {
 #ifdef USE_DEBUG_VISU
