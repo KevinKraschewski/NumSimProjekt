@@ -70,7 +70,7 @@ void Compute::TimeStep(bool printInfo){
   }  
   NewVelocities(dt);
   _t = _t + dt;
-  
+  //TODO PrintInfo Bereich ausprogrammieren.
   if (printInfo)
 	{
  		std::cout << "Info: "<< std::endl;
@@ -105,8 +105,11 @@ const Grid* Compute::GetRHS() const{
 /// Computes and returns the absolute velocity
 const Grid* Compute::GetVelocity(){
   Grid* _vel = new Grid(_geom);
+  std::cout<<_geom->Size()[0]<<std::endl;
+	//Beim Aufruf von Valid() verwenden wir nicht den Wert, den wir in Next Setzen!!
   for(InteriorIterator intIt = InteriorIterator(_geom); intIt.Valid(); intIt.Next()){
-    _vel->Cell(intIt) = sqrt(pow(_u->Cell(intIt), 2) + pow(_v->Cell(intIt) ,2));
+    	_vel->Cell(intIt) = sqrt(pow(_u->Cell(intIt), 2) + pow(_v->Cell(intIt) ,2));
+	std::cout<<intIt.Valid()<<std::endl;
   }
   return _vel; 
 }
@@ -116,6 +119,7 @@ const Grid* Compute::GetVorticity(){
   Grid* _vor = new Grid(_geom);
   for(InteriorIterator intIt = InteriorIterator(_geom); intIt.Valid(); intIt.Next()){
     _vor->Cell(intIt) = _v->dx_l(intIt) - _u->dx_l(intIt); //gibt vorticitiy am Mittelpunkt der Zelle (Rotation der Geschwindigkeit)
+	
   }
   return _vor; 
 }

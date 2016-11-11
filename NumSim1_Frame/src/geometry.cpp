@@ -38,9 +38,9 @@
 //      u=0, v=0
 
 Geometry::Geometry(){
-  // Default Geometry:
-    index_t x_size = 3;
-    index_t y_size = 2;
+  // Default Geometry: 
+    index_t x_size = 5;
+    index_t y_size = 5;
     _size = {x_size, y_size};
 
     real_t x_length = 1.0;
@@ -48,6 +48,7 @@ Geometry::Geometry(){
     _length = {x_length, y_length};
 
     _pressure = 1.0;
+    _velocity = {1.0,0.0};
 }
 
 /// Loads a geometry from a file
