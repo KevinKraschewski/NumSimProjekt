@@ -24,7 +24,7 @@
 /// Constructs a grid based on a geometry
 Grid::Grid(const Geometry *geom){
   _geom = geom;
-  _offset = {0, 0};
+  _offset = {geom->Mesh()[0]/2,geom->Mesh()[1]/2};
   size = (_geom -> Size()[0]+2)*(_geom -> Size()[1]+2);
   _data = new real_t[size]; //initialisiert ein Array der größe size und setzt _data als Zeiger auf das erste Element
 }
@@ -66,14 +66,15 @@ const real_t& Grid::Cell(const Iterator &it) const{
 /// Interpolate the value at a arbitrary position
 real_t Grid::Interpolate(const multi_real_t &pos) const{
   real_t interpol = 0.0;
-  multi_index_t index = {0,0};
+  multi_real_t index = {0.0,0.0};
   multi_real_t distCell = {0.0,0.0};
+  real_t a = 0.0;
+  real_t b = 0.0;
   index[0] = ceil(pos[0]/(_geom -> Mesh()[0])); //Position der Zelle des Punktes
   index[1] = ceil(pos[1]/(_geom -> Mesh()[1]));
   distCell[0] = pos[0]-(index[0]-0.5)*(_geom -> Mesh()[0]); // Abstand des Punktes zum Mittelpunkt der Zelle
   distCell[1] = pos[1]-(index[1]-0.5)*(_geom -> Mesh()[1]);
   Iterator myIt = Iterator(_geom, index[0] + (index[1]-1) * (_geom->Size()[0]+4)); // Iterator in Zelle des Punktes
-
   if (_offset[0] == 0 && _offset[1] == 0){ // Interpolation von p
     if (distCell[0] >= 0 && distCell[1] >= 0){
       interpol = _data[myIt-1]*((_geom->Mesh()[0]-distCell[0])/_geom->Mesh()[0])*((_geom->Mesh()[1]-distCell[1])/_geom->Mesh()[1])
@@ -123,7 +124,7 @@ real_t Grid::Interpolate(const multi_real_t &pos) const{
                + _data[myIt.Left()-1]*((-distCell[0])/_geom->Mesh()[0])*((_geom->Mesh()[1]-distCell[1])/_geom->Mesh()[1]);
     }
   }
-
+  std::cout<<"Interpolated Value = "<<interpol<<std::endl;
   return interpol;
 }
 

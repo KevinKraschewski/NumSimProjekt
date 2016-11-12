@@ -31,18 +31,19 @@ int main(int argc, char *argv[]) {
   Parameter param;
   param.Load("default.param");
   Geometry geom;
+  geom.Load("default.geom");
   const multi_real_t &h = geom.Mesh();
-  Grid *g = new Grid(&geom);
-  g->Initialize(0);
-
+  Grid *g = new Grid(&geom,h);
+  g->Initialize(2);
   // Create and initialize the visualization
   Renderer visu(geom.Length(), geom.Mesh());
-  visu.Init(600,600);//(800, 800);
+  visu.Init(600,600,2);
   for (InteriorIterator it = InteriorIterator(&geom); it.Valid(); it.Next()) {
 
-    g->Cell(it) 	= 100;
+    g->Cell(it) 	= 1;
     visu.Render(g);
-    /*for (InteriorIterator it = InteriorIterator(&geom); it.Valid(); it.Next()) {
+    visu.ShowGrid(true);
+	for (InteriorIterator it = InteriorIterator(&geom); it.Valid(); it.Next()) {
         if (it.Pos()[0] == 0) {
             std::cout << std::endl;
         }
@@ -50,7 +51,6 @@ int main(int argc, char *argv[]) {
     }
     std::cout << std::endl;
     std::cin.get();
-	*/
 
     g->Cell(it) = 0;
   }

@@ -39,15 +39,17 @@
 
 Geometry::Geometry(){
   // Default Geometry: 
-    index_t x_size = 5;
-    index_t y_size = 5;
+    index_t x_size = 30;
+    index_t y_size = 30;
     _size = {x_size, y_size};
 
-    real_t x_length = 1.0;
-    real_t y_length = 1.0;
+    real_t x_length = 10.0;
+    real_t y_length = 10.0;
     _length = {x_length, y_length};
 
-    _pressure = 1.0;
+    _h={_length[0]/_size[0],_length[1]/_size[1]};
+
+    _pressure = 0.0;
     _velocity = {1.0,0.0};
 }
 
