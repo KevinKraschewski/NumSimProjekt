@@ -36,7 +36,7 @@ Solver::~Solver(){
 /// Returns the residual at [it] for the pressure-Poisson equation
 real_t Solver::localRes(const Iterator &it, const Grid *grid, const Grid *rhs) const{
   real_t res = 0.0;
-  res = -(grid->Cell(it.Left()) + grid->Cell(it.Right()))/pow(_geom->Mesh()[0],2) + (grid->Cell(it.Down()) + grid->Cell(it.Top()))/pow(_geom->Mesh()[1],2) - 2*(pow(_geom->Mesh()[0],2) + pow(_geom->Mesh()[1],2))*grid->Cell(it)/(pow(_geom->Mesh()[0],2) * pow(_geom->Mesh()[1],2)) - rhs->Cell(it);
+  res = -((grid->Cell(it.Left()) + grid->Cell(it.Right()))/pow(_geom->Mesh()[0],2) + (grid->Cell(it.Down()) + grid->Cell(it.Top()))/pow(_geom->Mesh()[1],2) - 2*(pow(_geom->Mesh()[0],2) + pow(_geom->Mesh()[1],2))*grid->Cell(it)/(pow(_geom->Mesh()[0],2) * pow(_geom->Mesh()[1],2)) - rhs->Cell(it));
   return res;
 }
 

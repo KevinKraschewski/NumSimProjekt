@@ -30,7 +30,7 @@
 	  _alpha = 0.2;
 	  _dt = 0.5;
 	  _tend = 10;
-	  _eps = 0.1;
+	  _eps = 0.01;
 	  _tau = 2.0;
 	  _itermax = 1000;
   }

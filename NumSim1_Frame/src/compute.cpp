@@ -72,11 +72,12 @@ void Compute::TimeStep(bool printInfo){
   RHS(dt);
   real_t res = 2*_epslimit;
   index_t it = 0;
-  //while(res > _epslimit && it < _param->IterMax()){
-  //  _geom->Update_P(_p);
-  //  res = _solver->Cycle(_p,_rhs);
-  //  it = it + 1;
-  //}  
+  while(res > _epslimit && it < _param->IterMax()){
+    _geom->Update_P(_p);
+    res = _solver->Cycle(_p,_rhs);
+    it = it + 1;
+  }
+  std::cout << it << std::endl;  
   NewVelocities(dt);
   for(InteriorIterator intIt = InteriorIterator(_geom); intIt.Valid(); intIt.Next()){
     std::cout << _u->Cell(intIt) << std::endl;
