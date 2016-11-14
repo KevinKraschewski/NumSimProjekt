@@ -33,8 +33,10 @@ Compute::Compute(const Geometry *geom, const Parameter *param){
   _epslimit = _param->Eps()*_param->Eps()*_geom->Size()[0]*_geom->Size()[1]; //N entspricht sizex*sizey, quadriertes eps spart Wurzel für Residuum
   _u = new Grid(_geom, {_geom->Mesh()[0]/2, 0.0});
   _u->Initialize(0.0);
+  _geom->Update_U(_u);
   _v = new Grid(_geom, {0.0, _geom->Mesh()[1]/2});
   _v->Initialize(0.0);
+  _geom->Update_V(_v);
   _p = new Grid(_geom);
   _p->Initialize(0.0);
   _F = new Grid(_geom, {_geom->Mesh()[0]/2, 0.0});
@@ -70,15 +72,15 @@ void Compute::TimeStep(bool printInfo){
   RHS(dt);
   real_t res = 2*_epslimit;
   index_t it = 0;
-  while(res > _epslimit && it < _param->IterMax()){
-    _geom->Update_P(_p);
-    res = _solver->Cycle(_p,_rhs);
-    it = it + 1;
-  }  
+  //while(res > _epslimit && it < _param->IterMax()){
+  //  _geom->Update_P(_p);
+  //  res = _solver->Cycle(_p,_rhs);
+  //  it = it + 1;
+  //}  
   NewVelocities(dt);
-  Iterator itt(_geom,25);
-  //_u->Cell(itt) = 5.0; //bullshit
-  //_v->Cell(itt) = 5.0; //bullshit
+  for(InteriorIterator intIt = InteriorIterator(_geom); intIt.Valid(); intIt.Next()){
+    std::cout << _u->Cell(intIt) << std::endl;
+  }
   _t = _t + dt;
   //TODO PrintInfo Bereich ausprogrammieren.
   if (printInfo)

@@ -69,7 +69,7 @@ int main(int argc, char **argv) {
       break;
     };
 #endif // DEBUG_VISU 
-
+std::cin.get();
     // Create a VTK File in the folder VTK (must exist)
     vtk.Init("VTK/field");
    /* vtk.AddField("Velocity", comp.GetU(), comp.GetV());

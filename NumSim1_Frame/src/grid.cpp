@@ -63,12 +63,11 @@ const real_t& Grid::Cell(const Iterator &it) const{
   return _data[it-1];
 }
 
-/* // Interpolate the value at a arbitrary position
+// Interpolate the value at a arbitrary position
 real_t Grid::Interpolate(const multi_real_t &pos) const {
   const multi_index_t &size = _geom->Size();
   const multi_real_t &h = _geom->Mesh();
 
-  // compute index from position
   index_t multSize = 1;
   index_t i = 0;
   multi_real_t delta;
@@ -77,29 +76,20 @@ real_t Grid::Interpolate(const multi_real_t &pos) const {
     index_t iDim = (index_t)( delta[dim] );
     delta[dim] -= iDim;
     i += multSize * iDim;
-    multSize *= size[dim];
+    multSize *= (size[dim]+2);
   }
 
   Iterator it(_geom, i+1);
   real_t value = 0;
-  if(it.Valid()) {
-    // constant interpolation
-    //value = this->_data[it];
-
-    // bilinear interpolation
-    // TODO rewrite for n dim
     value = this->_data[it-1] * (1.0 - delta[0])*(1.0 - delta[1])
           + this->_data[it.Right()-1] * delta[0]*(1.0 - delta[1])
           + this->_data[it.Top()-1] * (1.0 - delta[0])*delta[1]
           + this->_data[it.Top().Right()-1] * delta[0]*delta[1];
-  } else { // Error in index computation
-    std::cerr << "Error: Grid: Pos out of area. Pos = " << pos[0] << ", " << pos[1]
-              << ", it = " << it << std::endl;
-  }
+
   return value;
-} */
+}
 
-
+/*
 /// Interpolate the value at a arbitrary position
 real_t Grid::Interpolate(const multi_real_t &pos) const{
   real_t interpol = 0.0;
@@ -111,7 +101,7 @@ real_t Grid::Interpolate(const multi_real_t &pos) const{
   distCell[1] = pos[1]-(index[1]-1.5)*(_geom -> Mesh()[1]);
   Iterator myIt = Iterator(_geom, index[0] + (index[1]-1) * (_geom->Size()[0]+4)); // Iterator in Zelle des Punktes
   interpol = _data[myIt-1];
- /*
+
   if (_offset[0] == 0.0 && _offset[1] == 0.0){ // Interpolation von p
     if (distCell[0] >= 0 && distCell[1] >= 0){
       interpol = _data[myIt-1]*((_geom->Mesh()[0]-distCell[0])/_geom->Mesh()[0])*((_geom->Mesh()[1]-distCell[1])/_geom->Mesh()[1])
@@ -162,10 +152,10 @@ real_t Grid::Interpolate(const multi_real_t &pos) const{
                + _data[myIt.Left()-1]*((-distCell[0])/_geom->Mesh()[0])*((_geom->Mesh()[1]-distCell[1])/_geom->Mesh()[1]);
     }
   }
-  */
+
   return interpol;
 }
-
+*/
 
 /// Computes the left-sided difference quatient in x-dim at [it]
 real_t Grid::dx_l(const Iterator &it) const{
