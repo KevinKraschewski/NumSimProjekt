@@ -32,11 +32,11 @@ Compute::Compute(const Geometry *geom, const Parameter *param){
   _dtlimit = param->Tau()*(param->Re()/2)*(pow(_geom->Mesh()[0],2) * pow(_geom->Mesh()[1],2))/(2*(pow(_geom->Mesh()[0],2) + pow(_geom->Mesh()[1],2)));
   _epslimit = _param->Eps()*_param->Eps()*_geom->Size()[0]*_geom->Size()[1]; //N entspricht sizex*sizey, quadriertes eps spart Wurzel für Residuum
   _u = new Grid(_geom, {_geom->Mesh()[0]/2, 0.0});
-  _u->Initialize(2.0);
+  _u->Initialize(0.0);
   _v = new Grid(_geom, {0.0, _geom->Mesh()[1]/2});
-  _v->Initialize(2.0);
+  _v->Initialize(0.0);
   _p = new Grid(_geom);
-  _p->Initialize(2.0);
+  _p->Initialize(0.0);
   _F = new Grid(_geom, {_geom->Mesh()[0]/2, 0.0});
   _F->Initialize(0.0); // für homogene Neumann-Randbedingungen in p 
   _G = new Grid(_geom, {0.0, _geom->Mesh()[1]/2});
@@ -49,7 +49,14 @@ Compute::Compute(const Geometry *geom, const Parameter *param){
 }
 /// Deletes all grids
 Compute::~Compute(){
-  
+  delete _u; 
+  delete _v; 
+  delete _p; 
+  delete _F; 
+  delete _G; 
+  delete _rhs; 
+  delete _tmp; 
+  delete _solver;
 }
 
 /// Execute one time step of the fluid simulation (with or without debug info)
@@ -69,6 +76,9 @@ void Compute::TimeStep(bool printInfo){
     it = it + 1;
   }  
   NewVelocities(dt);
+  Iterator itt(_geom,25);
+  //_u->Cell(itt) = 5.0; //bullshit
+  //_v->Cell(itt) = 5.0; //bullshit
   _t = _t + dt;
   //TODO PrintInfo Bereich ausprogrammieren.
   if (printInfo)

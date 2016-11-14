@@ -26,12 +26,12 @@
   // Driven Cavity parameters; see exercise sheet 1
   Parameter::Parameter(){
 	  _re = 1.0;
-	  _omega = 0.0;
-	  _alpha = 0.0;
+	  _omega = 0.2;
+	  _alpha = 0.2;
 	  _dt = 0.5;
 	  _tend = 10;
 	  _eps = 0.1;
-	  _tau = 0;
+	  _tau = 2.0;
 	  _itermax = 1000;
   }
   

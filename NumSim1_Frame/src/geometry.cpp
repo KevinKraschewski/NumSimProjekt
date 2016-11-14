@@ -15,6 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <iostream>
 #include "geometry.hpp"
 #include "grid.hpp"
 #include "iterator.hpp"
@@ -50,7 +51,7 @@ Geometry::Geometry(){
     _h={_length[0]/_size[0],_length[1]/_size[1]};
 
     _pressure = 0.0;
-    _velocity = {1.0,0.0};
+    _velocity = {20.0,0.0};
 }
 
 /// Loads a geometry from a file
@@ -112,7 +113,7 @@ void Geometry::Update_U(Grid *u) const{
     u->Cell(it) = - u->Cell(it.Top());
     it.Next();
   }
-  while (it.Pos()[1] != (_size[1]+2)){
+  while (it.Pos()[1] != (_size[1]+1)){
     u->Cell(it) = 0.0;
     it = it.Top();
   }

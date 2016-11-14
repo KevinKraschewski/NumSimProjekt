@@ -78,7 +78,11 @@ int main(int argc, char **argv) {
 
     // Run a few steps
     for (uint32_t i = 0; i < 9; ++i)
+    {
       comp.TimeStep(false);
+      std::cout << "t = " << comp.GetTime() << std::endl;
+      std::cin.get();
+    }
     comp.TimeStep(true);
   }
   /*Geometry myGeo = Geometry();
