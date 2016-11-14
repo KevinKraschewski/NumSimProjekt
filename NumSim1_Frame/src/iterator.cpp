@@ -51,7 +51,6 @@ multi_index_t Iterator::Pos() const{
   //Hier...evtl. brauchen wir noch die genauen Angaben... :P
   //position[0] = (_value-1)%(_geom->Size()[0]+2)*_geom->Mesh()[0] - 1/2*_geom->Mesh()[0];
   //position[1] = _geom->Mesh()[1]*(ceil((_value-1)/(_geom->Size()[0]+2))) - 1/2*_geom->Mesh()[1];
-  std::cout<<"Position: x-Koordinate: " <<position[0]<<" y-Koordinate: "<<position[1]<<std::endl;
   return position; // falsch
 }
 

@@ -183,15 +183,20 @@ real_t Grid::DC_dvu_dy(const Iterator &it, const real_t &alpha, const Grid *v) c
 }
 
 /// Computes d(u*v)/dx with the donor cell method
+// Hier nochmal drüber schauen.....
 real_t Grid::DC_duv_dx(const Iterator &it, const real_t &alpha, const Grid *u) const{
-  real_t udvdx = 0.0;
-  return udvdx;
+  real_t m1 = (1/4)*((u->Cell(it.Down())+u->Cell(it))*(_data[it-1]+_data[it-2])-(u->Cell(it.Right().Down())+u->Cell(it.Right()))*(_data[it]+_data[it-1]));
+  real_t m2 = (1/4)*(fabs(u->Cell(it.Down())+u->Cell(it))*(_data[it-1]-_data[it-2])-fabs(u->Cell(it.Right().Down())+u->Cell(it.Right()))*(_data[it]-_data[it-1]));
+ real_t duvdx = (1/_geom->Mesh()[0])*m1 + alpha*(1/_geom->Mesh()[0])*m2; // Evtl. anderstrum ??  
+  return duvdx;
 }
 
 /// Computes d(v*v)/dy with the donor cell method
 real_t Grid::DC_dvv_dy(const Iterator &it, const real_t &alpha) const{
-  // hier fehlt noch was
-  return 0.0; //falsch
+  real_t m1 = (1/4)*(pow(_data[it-1]+_data[it.Top()-1],2)-pow(_data[it.Down()-1]+_data[it-1],2));
+  real_t m2 = (1/4)*(fabs(_data[it-1]+_data[it.Top()-1])*(_data[it-1]+_data[it.Top()-1])-fabs(_data[it.Down()-1]+_data[it-1])*(_data[it.Down()-1]+_data[it-1]));
+  real_t dvvdy = 1/_geom->Mesh()[1]*m1 + alpha*(1/_geom->Mesh()[0])*m2;
+  return dvvdy;
 }
 
 /// Returns the maximal value of the grid
