@@ -68,13 +68,13 @@ int main(int argc, char **argv) {
     default:
       break;
     };
-#endif // DEBUG_VISU
+#endif // DEBUG_VISU 
 
     // Create a VTK File in the folder VTK (must exist)
     vtk.Init("VTK/field");
-    vtk.AddField("Velocity", comp.GetU(), comp.GetV());
+   /* vtk.AddField("Velocity", comp.GetU(), comp.GetV());
     vtk.AddScalar("Pressure", comp.GetP());
-    vtk.Finish();
+    vtk.Finish(); */
 
     // Run a few steps
     for (uint32_t i = 0; i < 9; ++i)

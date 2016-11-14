@@ -29,7 +29,12 @@ Iterator::Iterator(const Geometry *geom){
 Iterator::Iterator(const Geometry *geom, const index_t &value){
 	_geom = geom;
 	_value = value;
-	_valid = this -> Valid();
+        _valid = true;
+        index_t geo_size = (_geom->Size()[0]+2)*(_geom->Size()[1]+2);
+        if (_value > geo_size || _value < 1)
+        {
+          _valid = false;
+        }
 }
 
 /// Returns the current position value
@@ -59,18 +64,15 @@ void Iterator::First(){
 /// Goes to the next element of the iterator, disables it if position is end
 void Iterator::Next(){
   _value = _value + 1;
-  _valid = this -> Valid();
+  index_t geo_size = (_geom->Size()[0]+2)*(_geom->Size()[1]+2);
+  if (_value > geo_size || _value < 1)
+  {
+    _valid = false;
+  }
 }
 
 /// Checks if the iterator still has a valid value
 bool Iterator::Valid() const{
- /*  bool valid = true;
-  index_t geo_size = (_geom->Size()[0]+2)*(_geom->Size()[1]+2);
-  if (_value > geo_size || _value < 1)
-  {
-    valid = false;
-  }
- */
   return _valid;
 }
 

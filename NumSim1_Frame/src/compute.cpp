@@ -32,11 +32,11 @@ Compute::Compute(const Geometry *geom, const Parameter *param){
   _dtlimit = param->Tau()*(param->Re()/2)*(pow(_geom->Mesh()[0],2) * pow(_geom->Mesh()[1],2))/(2*(pow(_geom->Mesh()[0],2) + pow(_geom->Mesh()[1],2)));
   _epslimit = _param->Eps()*_param->Eps()*_geom->Size()[0]*_geom->Size()[1]; //N entspricht sizex*sizey, quadriertes eps spart Wurzel für Residuum
   _u = new Grid(_geom, {_geom->Mesh()[0]/2, 0.0});
-  _u->Initialize(0.0);
+  _u->Initialize(2.0);
   _v = new Grid(_geom, {0.0, _geom->Mesh()[1]/2});
-  _v->Initialize(0.0);
+  _v->Initialize(2.0);
   _p = new Grid(_geom);
-  _p->Initialize(0.0);
+  _p->Initialize(2.0);
   _F = new Grid(_geom, {_geom->Mesh()[0]/2, 0.0});
   _F->Initialize(0.0); // für homogene Neumann-Randbedingungen in p 
   _G = new Grid(_geom, {0.0, _geom->Mesh()[1]/2});
@@ -62,7 +62,7 @@ void Compute::TimeStep(bool printInfo){
   MomentumEqu(dt);
   RHS(dt);
   real_t res = 2*_epslimit;
-  int it = 0;
+  index_t it = 0;
   while(res > _epslimit && it < _param->IterMax()){
     _geom->Update_P(_p);
     res = _solver->Cycle(_p,_rhs);
@@ -105,8 +105,6 @@ const Grid* Compute::GetRHS() const{
 /// Computes and returns the absolute velocity
 const Grid* Compute::GetVelocity(){
   Grid* _vel = new Grid(_geom);
-  std::cout<<_geom->Size()[0]<<std::endl;
-  std::cout<<_geom->Size()[1]<<std::endl;
   for(InteriorIterator intIt = InteriorIterator(_geom); intIt.Valid(); intIt.Next()){
     	_vel->Cell(intIt) = sqrt(pow(_u->Cell(intIt), 2) + pow(_v->Cell(intIt) ,2));
   }
