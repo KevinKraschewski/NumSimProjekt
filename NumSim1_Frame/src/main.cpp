@@ -44,7 +44,7 @@ int main(int argc, char **argv) {
   bool run = true;
 
   visugrid = comp.GetVelocity();
-  std::cout<<"Velo fertig"<<std::endl;
+
   // Run the time steps until the end is reached
   while (comp.GetTime() < param.Tend() && run) {
 #ifdef USE_DEBUG_VISU
@@ -72,9 +72,9 @@ int main(int argc, char **argv) {
 std::cin.get();
     // Create a VTK File in the folder VTK (must exist)
     vtk.Init("VTK/field");
-   /* vtk.AddField("Velocity", comp.GetU(), comp.GetV());
+    vtk.AddField("Velocity", comp.GetU(), comp.GetV());
     vtk.AddScalar("Pressure", comp.GetP());
-    vtk.Finish(); */
+    vtk.Finish();
 
     // Run a few steps
     for (uint32_t i = 0; i < 9; ++i)
@@ -85,28 +85,7 @@ std::cin.get();
     }
     comp.TimeStep(true);
   }
-  /*Geometry myGeo = Geometry();
-  Iterator myIt = Iterator(&myGeo, 2);
-  bool valid = myIt.Valid();
-  std::cout << valid << std::endl;
-  myIt.Pos();
-  Iterator myIt2 = myIt.Top();
-  myIt2.Pos();
-  Iterator myIt3 = myIt2.Left();
-  myIt3.Pos();
-  Iterator myIt4 = myIt3.Down();
-  myIt4.Pos();
-  Iterator myIt5 = myIt4.Right();
-  myIt5.Pos();
-  Parameter param = Parameter();
-  std::cout << param.Re() << std::endl;
-  std::cout << param.IterMax() << std::endl;
-  Grid gri = Grid(&myGeo);
-  gri.Initialize(20);
-  gri.Cell(myIt) = 50;
-  std::cout << gri.Cell(myIt) << std::endl;
-  int i = myIt;
-  std::cout << i << std::endl; */
+
   
   return 0;
 }

@@ -40,8 +40,8 @@
 
 Geometry::Geometry(){
   // Default Geometry: 
-    index_t x_size = 8;
-    index_t y_size = 8;
+    index_t x_size = 16;
+    index_t y_size = 16;
     _size = {x_size, y_size};
 
     real_t x_length = 1.0;
@@ -50,8 +50,8 @@ Geometry::Geometry(){
 
     _h={_length[0]/_size[0],_length[1]/_size[1]};
 
-    _pressure = 0.0;
-    _velocity = {20.0,0.0};
+    _pressure = 0.5;
+    _velocity = {2.0,0.0};
 }
 
 /// Loads a geometry from a file
@@ -166,7 +166,7 @@ Iterator it = Iterator(this, 1);
     it = it.Top();
   }
   while (it.Pos()[0] != (_size[0]+2)){
-    p->Cell(it) = p->Cell(it.Down());
+    p->Cell(it) = p->Cell(it.Down()); // 2*_pressure - p->Cell(it.Down());
     it.Next();
   }
   while (it.Pos()[1] != 1){

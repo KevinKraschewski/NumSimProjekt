@@ -38,7 +38,7 @@ Compute::Compute(const Geometry *geom, const Parameter *param){
   _v->Initialize(0.0);
   _geom->Update_V(_v);
   _p = new Grid(_geom);
-  _p->Initialize(0.0);
+  _p->Initialize(2.0);
   _F = new Grid(_geom, {_geom->Mesh()[0]/2, 0.0});
   _F->Initialize(0.0); // für homogene Neumann-Randbedingungen in p 
   _G = new Grid(_geom, {0.0, _geom->Mesh()[1]/2});
@@ -77,17 +77,18 @@ void Compute::TimeStep(bool printInfo){
     res = _solver->Cycle(_p,_rhs);
     it = it + 1;
   }
-  std::cout << it << std::endl;  
+  std::cout << it << std::endl;
+  std::cout << res << std::endl;
   NewVelocities(dt);
-  for(Iterator intIt = Iterator(_geom); intIt.Valid(); intIt.Next()){
-    std::cout << "x-Pos "<< intIt.Pos()[0] << ", y-Pos " << intIt.Pos()[1] << " :  u = " << _u->Cell(intIt) << " v = " << _v->Cell(intIt) << std::endl;
-  }
   _t = _t + dt;
+
   //TODO PrintInfo Bereich ausprogrammieren.
   if (printInfo)
-	{
- 		std::cout << "Info: "<< std::endl;
-	}
+  {
+    for(Iterator intIt = Iterator(_geom); intIt.Valid(); intIt.Next()){
+      std::cout << "x-Pos "<< intIt.Pos()[0] << ", y-Pos " << intIt.Pos()[1] << " :  u = " << _u->Cell(intIt) << " v = " << _v->Cell(intIt) << std::endl;
+    }
+  }
 }
 
 /// Returns the simulated time in total
@@ -171,7 +172,7 @@ const Grid* Compute::GetStream(){
 
   /// Compute the new velocites u,v
   void Compute::NewVelocities(const real_t &dt){
-    for(InteriorIterator intIt = InteriorIterator(_geom); intIt.Valid(); intIt.Next()){
+    for(InteriorIterator intIt(_geom); intIt.Valid(); intIt.Next()){
       _u->Cell(intIt) = _F->Cell(intIt) - dt * _p->dx_r(intIt);
       _v->Cell(intIt) = _G->Cell(intIt) - dt * _p->dy_r(intIt);
     }
@@ -179,7 +180,7 @@ const Grid* Compute::GetStream(){
   
   /// Compute the temporary velocites F,G
   void Compute::MomentumEqu(const real_t &dt){
-    for(InteriorIterator intIt = InteriorIterator(_geom); intIt.Valid(); intIt.Next()){
+    for(InteriorIterator intIt(_geom); intIt.Valid(); intIt.Next()){
       real_t A = 1/_param->Re() *(_u->dxx(intIt) + _u->dyy(intIt)) - _u->DC_duu_dx(intIt, _param->Alpha()) - _u->DC_dvu_dy(intIt, _param->Alpha(), _v);
       real_t B = 1/_param->Re() *(_v->dxx(intIt) + _v->dyy(intIt)) - _v->DC_dvv_dy(intIt, _param->Alpha()) - _v->DC_duv_dx(intIt, _param->Alpha(), _u);
       _F->Cell(intIt) = _u->Cell(intIt) + dt * A;

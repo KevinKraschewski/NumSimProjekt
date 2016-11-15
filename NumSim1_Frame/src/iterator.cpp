@@ -45,13 +45,9 @@ const index_t& Iterator::Value() const{
 /// Returns the position coordinates
 multi_index_t Iterator::Pos() const{
   multi_index_t position; //Koordinaten in der Mitte :)
-  
   position[0] = (_value-1)%(_geom->Size()[0]+2)+1; // x-Wert
   position[1] = floor((_value-1)/(_geom->Size()[0]+2))+1; // y-Wert
-  //Hier...evtl. brauchen wir noch die genauen Angaben... :P
-  //position[0] = (_value-1)%(_geom->Size()[0]+2)*_geom->Mesh()[0] - 1/2*_geom->Mesh()[0];
-  //position[1] = _geom->Mesh()[1]*(ceil((_value-1)/(_geom->Size()[0]+2))) - 1/2*_geom->Mesh()[1];
-  return position; // falsch
+  return position;
 }
 
 /// Sets the iterator to the first element
@@ -78,7 +74,6 @@ bool Iterator::Valid() const{
 // TODO Prüfen, ob die Werte valid sind...
 /// Returns an Iterator that is located left from this one.
 // if we are at the left boundary, the cell sees itself
-// This ????
 Iterator Iterator::Left() const{
     if (_value%(_geom->Size()[0]+2) == 1)
     {
@@ -143,7 +138,7 @@ Iterator Iterator::Down() const{
   //bool _valid;
 
 /// Construct a new InteriorIterator
-// Konstruktor von Iterator wird zu Beginn schon aufgerufen, da es keine Konstructor für Iterator ohne Argumente gibt.
+// Konstruktor von Iterator wird zu Beginn schon aufgerufen, da es keine Konstruktor für Iterator ohne Argumente gibt.
 InteriorIterator::InteriorIterator(const Geometry *geom) : Iterator::Iterator(geom) {
   _value = geom->Size()[0]+4;
   _valid = true;
@@ -163,7 +158,6 @@ void InteriorIterator::Next(){
       if (this->Pos()[1] == _geom->Size()[1]+1)
         {
           _valid = false;
-          //_value = _value+1;  <- WARUM?
         }
         else
         {
@@ -179,7 +173,7 @@ void InteriorIterator::Next(){
 
 /// Constructs a new BoundaryIterator
 BoundaryIterator::BoundaryIterator(const Geometry *geom) : Iterator::Iterator(geom) {
-  _boundary = 1; //???
+  _boundary = 1; //benötigen wir nicht
 }
 
 /// Sets the boundary to iterate
@@ -204,7 +198,6 @@ void BoundaryIterator::Next(){
     if (this->Pos()[0] == _geom->Size()[0]+2)
     {
       _valid = false;
-      _value = _value +1;
     }
     else
       _value = _value + 1;

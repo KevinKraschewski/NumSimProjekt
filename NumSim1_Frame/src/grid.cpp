@@ -66,30 +66,29 @@ const real_t& Grid::Cell(const Iterator &it) const{
 
 // Interpolate the value at a arbitrary position
 real_t Grid::Interpolate(const multi_real_t &pos) const {
-  const multi_index_t &size = _geom->Size();
-  const multi_real_t &h = _geom->Mesh();
 
   index_t multSize = 1;
-  index_t i = 0;
-  multi_real_t delta;
+  index_t index = 0;
+  multi_real_t dist = {0, 0};
+  real_t interpol = 0;
+
   for(index_t dim = 0; dim < 2; dim++) {
-    delta[dim] = (pos[dim] + _offset[dim])/ h[dim] - 1/2;
-    index_t iDim = (index_t)( delta[dim] );
-    delta[dim] -= iDim;
-    i += multSize * iDim;
-    multSize *= (size[dim]+2);
+    dist[dim] = (pos[dim] - _offset[dim])/ _geom->Mesh()[dim] - 1/2;
+    index_t iDim = (index_t)( dist[dim] );
+    dist[dim] -= iDim;
+    index += multSize * iDim;
+    multSize *= (_geom->Size()[dim]+2);
   }
 
-  Iterator it(_geom, i+1);
-  real_t value = 0;
-    value = _data[it-1] * (1.0 - delta[0])*(1.0 - delta[1])
-          + _data[it.Right()-1] * delta[0]*(1.0 - delta[1])
-          + _data[it.Top()-1] * (1.0 - delta[0])*delta[1]
-          + _data[it.Top().Right()-1] * delta[0]*delta[1];
+  Iterator MyIt(_geom, index+1);
 
-  return value;
+  interpol = _data[MyIt-1] * (1.0 - dist[0])*(1.0 - dist[1])
+           + _data[MyIt.Right()-1] * dist[0]*(1.0 - dist[1])
+           + _data[MyIt.Top()-1] * (1.0 - dist[0])*dist[1]
+           + _data[MyIt.Top().Right()-1] * dist[0]*dist[1];
+
+  return interpol;
 }
-
 
 /*
 /// Interpolate the value at a arbitrary position
@@ -99,9 +98,9 @@ real_t Grid::Interpolate(const multi_real_t &pos) const{
   multi_real_t distCell = {0.0,0.0};
   index[0] = ceil(pos[0]/(_geom -> Mesh()[0]))+1; //Position der Zelle des Punktes
   index[1] = ceil(pos[1]/(_geom -> Mesh()[1]))+1;
-  distCell[0] = pos[0]-(index[0]-1.5)*(_geom -> Mesh()[0]); // Abstand des Punktes zum Mittelpunkt der Zelle
-  distCell[1] = pos[1]-(index[1]-1.5)*(_geom -> Mesh()[1]);
-  Iterator myIt = Iterator(_geom, index[0] + (index[1]-1) * (_geom->Size()[0]+4)); // Iterator in Zelle des Punktes
+  distCell[0] = pos[0]-(index[0]-0.5)*(_geom -> Mesh()[0]); // Abstand des Punktes zum Mittelpunkt der Zelle
+  distCell[1] = pos[1]-(index[1]-0.5)*(_geom -> Mesh()[1]);
+  Iterator myIt = Iterator(_geom, index[0] + (index[1]-1) * (_geom->Size()[0]+2)); // Iterator in Zelle des Punktes
   interpol = _data[myIt-1];
 
   if (_offset[0] == 0.0 && _offset[1] == 0.0){ // Interpolation von p
