@@ -73,7 +73,7 @@ real_t Grid::Interpolate(const multi_real_t &pos) const {
   index_t i = 0;
   multi_real_t delta;
   for(index_t dim = 0; dim < 2; dim++) {
-    delta[dim] = (pos[dim] )/ h[dim];
+    delta[dim] = (pos[dim] + _offset[dim])/ h[dim] - 1/2;
     index_t iDim = (index_t)( delta[dim] );
     delta[dim] -= iDim;
     i += multSize * iDim;
@@ -90,8 +90,8 @@ real_t Grid::Interpolate(const multi_real_t &pos) const {
   return value;
 }
 
-/*
 
+/*
 /// Interpolate the value at a arbitrary position
 real_t Grid::Interpolate(const multi_real_t &pos) const{
   real_t interpol = 0.0;
@@ -213,20 +213,30 @@ real_t Grid::DC_dvu_dy(const Iterator &it, const real_t &alpha, const Grid *v) c
   return dvudy;
 }
 
+/*
 /// Computes d(u*v)/dx with the donor cell method
 // Hier nochmal drüber schauen.....
 real_t Grid::DC_duv_dx(const Iterator &it, const real_t &alpha, const Grid *u) const{
   real_t m1 = (1/4)*((u->Cell(it.Down())+u->Cell(it))*(_data[it-1]+_data[it-2])-(u->Cell(it.Right().Down())+u->Cell(it.Right()))*(_data[it]+_data[it-1]));
   real_t m2 = (1/4)*(fabs(u->Cell(it.Down())+u->Cell(it))*(_data[it-1]-_data[it-2])-fabs(u->Cell(it.Right().Down())+u->Cell(it.Right()))*(_data[it]-_data[it-1]));
- real_t duvdx = (1/_geom->Mesh()[0])*m1 + alpha*(1/_geom->Mesh()[0])*m2; // Evtl. anderstrum ??  
+  real_t duvdx = (1/_geom->Mesh()[0])*m1 + alpha*(1/_geom->Mesh()[0])*m2; // Evtl. anderstrum ??  
+  return duvdx;
+}*/
+
+/// Computes d(u*v)/dx with the donor cell method
+// Hier nochmal drüber schauen.....
+real_t Grid::DC_duv_dx(const Iterator &it, const real_t &alpha, const Grid *u) const{
+  real_t m1 = (1/4)*((u->Cell(it.Top())+u->Cell(it))*(_data[it-1]+_data[it])-(u->Cell(it.Left().Top())+u->Cell(it.Left()))*(_data[it-2]+_data[it-1]));
+  real_t m2 = (1/4)*(fabs(u->Cell(it.Top())+u->Cell(it))*(_data[it-1]-_data[it])-fabs(u->Cell(it.Top().Left())+u->Cell(it.Left()))*(_data[it-2]-_data[it-1]));
+  real_t duvdx = (1/_geom->Mesh()[0])*m1 + alpha*(1/_geom->Mesh()[0])*m2;
   return duvdx;
 }
 
 /// Computes d(v*v)/dy with the donor cell method
 real_t Grid::DC_dvv_dy(const Iterator &it, const real_t &alpha) const{
   real_t m1 = (1/4)*(pow(_data[it-1]+_data[it.Top()-1],2)-pow(_data[it.Down()-1]+_data[it-1],2));
-  real_t m2 = (1/4)*(fabs(_data[it-1]+_data[it.Top()-1])*(_data[it-1]+_data[it.Top()-1])-fabs(_data[it.Down()-1]+_data[it-1])*(_data[it.Down()-1]+_data[it-1]));
-  real_t dvvdy = 1/_geom->Mesh()[1]*m1 + alpha*(1/_geom->Mesh()[0])*m2;
+  real_t m2 = (1/4)*(fabs(_data[it-1]+_data[it.Top()-1])*(_data[it-1]-_data[it.Top()-1])-fabs(_data[it.Down()-1]+_data[it-1])*(_data[it.Down()-1]-_data[it-1]));
+  real_t dvvdy = 1/_geom->Mesh()[1]*m1 + alpha*(1/_geom->Mesh()[1])*m2;
   return dvvdy;
 }
 

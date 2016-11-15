@@ -82,13 +82,13 @@ bool Iterator::Valid() const{
 Iterator Iterator::Left() const{
     if (_value%(_geom->Size()[0]+2) == 1)
     {
-      Iterator *Iterator_left = new Iterator(_geom, _value);
-      return *Iterator_left;
+      Iterator Iterator_left(_geom, _value);
+      return Iterator_left;
     }
     else
     {
-      Iterator *Iterator_left = new Iterator(_geom, _value-1);
-      return *Iterator_left;
+      Iterator Iterator_left(_geom, _value-1);
+      return Iterator_left;
     }
 }
 
@@ -97,13 +97,13 @@ Iterator Iterator::Left() const{
 Iterator Iterator::Right() const{
     if (_value%(_geom->Size()[0]+2) == 0)
     {
-      Iterator *Iterator_right = new Iterator(_geom, _value);
-      return *Iterator_right;
+      Iterator Iterator_right(_geom, _value);
+      return Iterator_right;
     }
     else
     {
-      Iterator *Iterator_right = new Iterator(_geom, _value+1);
-      return *Iterator_right;
+      Iterator Iterator_right(_geom, _value+1);
+      return Iterator_right;
     }
 }
 
@@ -112,13 +112,13 @@ Iterator Iterator::Right() const{
 Iterator Iterator::Top() const{
     if (_value>(_geom->Size()[0]+2)*(_geom->Size()[1]+1))
     {
-      Iterator *Iterator_top = new Iterator(_geom, _value);
-      return *Iterator_top;
+      Iterator Iterator_top(_geom, _value);
+      return Iterator_top;
     }
     else
     {
-      Iterator *Iterator_top = new Iterator(_geom, _value+(_geom->Size()[0]+2));
-      return *Iterator_top;
+      Iterator Iterator_top(_geom, _value+(_geom->Size()[0]+2));
+      return Iterator_top;
     }
 }
 
@@ -127,13 +127,13 @@ Iterator Iterator::Top() const{
 Iterator Iterator::Down() const{
     if (_value<=(_geom->Size()[0]+2))
     {
-      Iterator *Iterator_down = new Iterator(_geom, _value);
-      return *Iterator_down;
+      Iterator Iterator_down(_geom, _value);
+      return Iterator_down;
     }
     else
     {
-      Iterator *Iterator_down = new Iterator(_geom, _value-(_geom->Size()[0]+2));
-      return *Iterator_down;
+      Iterator Iterator_down(_geom, _value-(_geom->Size()[0]+2));
+      return Iterator_down;
     }
 }
 
