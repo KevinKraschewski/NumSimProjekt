@@ -25,13 +25,13 @@
   /// Constructs a new Parameter set with default values
   // Driven Cavity parameters; see exercise sheet 1
   Parameter::Parameter(){
-	  _re = 1.0;
-	  _omega = 0.2;
-	  _alpha = 0.2;
-	  _dt = 0.5;
-	  _tend = 10;
+	  _re = 1000;
+	  _omega = 1.7;
+	  _alpha = 0.9;
+	  _dt = 0.1;
+	  _tend = 50;
 	  _eps = 0.01;
-	  _tau = 2.0;
+	  _tau = 0.5;
 	  _itermax = 1000;
   }
   

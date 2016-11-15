@@ -79,8 +79,8 @@ void Compute::TimeStep(bool printInfo){
   }
   std::cout << it << std::endl;  
   NewVelocities(dt);
-  for(InteriorIterator intIt = InteriorIterator(_geom); intIt.Valid(); intIt.Next()){
-    std::cout << _u->Cell(intIt) << std::endl;
+  for(Iterator intIt = Iterator(_geom); intIt.Valid(); intIt.Next()){
+    std::cout << "x-Pos "<< intIt.Pos()[0] << ", y-Pos " << intIt.Pos()[1] << " :  u = " << _u->Cell(intIt) << " v = " << _v->Cell(intIt) << std::endl;
   }
   _t = _t + dt;
   //TODO PrintInfo Bereich ausprogrammieren.
@@ -117,27 +117,24 @@ const Grid* Compute::GetRHS() const{
 
 /// Computes and returns the absolute velocity
 const Grid* Compute::GetVelocity(){
-  Grid* _vel = new Grid(_geom);
   for(InteriorIterator intIt = InteriorIterator(_geom); intIt.Valid(); intIt.Next()){
-    	_vel->Cell(intIt) = sqrt(pow(_u->Cell(intIt), 2) + pow(_v->Cell(intIt) ,2));
+    	_tmp->Cell(intIt) = sqrt(pow((_u->Cell(intIt)+_u->Cell(intIt.Left()))/2, 2) + pow((_v->Cell(intIt)+_v->Cell(intIt.Down()))/2 ,2));
   }
-  return _vel;
+  return _tmp;
 }
 
 /// Computes and returns the vorticity
 const Grid* Compute::GetVorticity(){
-  Grid* _vor = new Grid(_geom);
   for(InteriorIterator intIt = InteriorIterator(_geom); intIt.Valid(); intIt.Next()){
-    _vor->Cell(intIt) = _v->dx_l(intIt) - _u->dx_l(intIt); //gibt vorticitiy am Mittelpunkt der Zelle (Rotation der Geschwindigkeit)
-	
+    _tmp->Cell(intIt) = _v->dx_l(intIt) - _u->dx_l(intIt); //gibt vorticitiy am Mittelpunkt der Zelle (Rotation der Geschwindigkeit)	
   }
-  return _vor; 
+  return _tmp; 
 }
 
 /// Computes and returns the stream line values
 const Grid* Compute::GetStream(){
-  
-  return _tmp; //falsch
+  //hier fehlt noch was
+  return _tmp; 
 }
 
 

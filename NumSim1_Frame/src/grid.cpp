@@ -63,6 +63,7 @@ const real_t& Grid::Cell(const Iterator &it) const{
   return _data[it-1];
 }
 
+
 // Interpolate the value at a arbitrary position
 real_t Grid::Interpolate(const multi_real_t &pos) const {
   const multi_index_t &size = _geom->Size();
@@ -72,7 +73,7 @@ real_t Grid::Interpolate(const multi_real_t &pos) const {
   index_t i = 0;
   multi_real_t delta;
   for(index_t dim = 0; dim < 2; dim++) {
-    delta[dim] = (pos[dim] + this->_offset[dim])/ h[dim];
+    delta[dim] = (pos[dim] )/ h[dim];
     index_t iDim = (index_t)( delta[dim] );
     delta[dim] -= iDim;
     i += multSize * iDim;
@@ -81,15 +82,16 @@ real_t Grid::Interpolate(const multi_real_t &pos) const {
 
   Iterator it(_geom, i+1);
   real_t value = 0;
-    value = this->_data[it-1] * (1.0 - delta[0])*(1.0 - delta[1])
-          + this->_data[it.Right()-1] * delta[0]*(1.0 - delta[1])
-          + this->_data[it.Top()-1] * (1.0 - delta[0])*delta[1]
-          + this->_data[it.Top().Right()-1] * delta[0]*delta[1];
+    value = _data[it-1] * (1.0 - delta[0])*(1.0 - delta[1])
+          + _data[it.Right()-1] * delta[0]*(1.0 - delta[1])
+          + _data[it.Top()-1] * (1.0 - delta[0])*delta[1]
+          + _data[it.Top().Right()-1] * delta[0]*delta[1];
 
   return value;
 }
 
 /*
+
 /// Interpolate the value at a arbitrary position
 real_t Grid::Interpolate(const multi_real_t &pos) const{
   real_t interpol = 0.0;

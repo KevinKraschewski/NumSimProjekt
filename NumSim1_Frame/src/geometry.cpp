@@ -113,7 +113,7 @@ void Geometry::Update_U(Grid *u) const{
     u->Cell(it) = - u->Cell(it.Top());
     it.Next();
   }
-  while (it.Pos()[1] != (_size[1]+1)){
+  while (it.Pos()[1] != (_size[1]+2)){
     u->Cell(it) = 0.0;
     it = it.Top();
   }
@@ -121,10 +121,13 @@ void Geometry::Update_U(Grid *u) const{
     u->Cell(it) = 2*_velocity[0] - u->Cell(it.Down());
     it.Next();
   }
+  u->Cell(it) = 2*_velocity[0];
+  it = it.Down();
   while (it.Pos()[1] != 1){
     u->Cell(it) = 0.0;
     it = it.Down();
   }
+  u->Cell(it) = 0.0;
 }
 
 /// Updates the velocity field v
@@ -142,10 +145,13 @@ void Geometry::Update_V(Grid *v) const{
     v->Cell(it) = _velocity[1];
     it.Next();
   }
+  v->Cell(it) = _velocity[1];
+  it = it.Down();
   while (it.Pos()[1] != 1){
     v->Cell(it) = - v->Cell(it.Left());
     it = it.Down();
   }
+  
 }
 
 /// Updates the pressure field p
